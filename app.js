@@ -77,6 +77,7 @@ const S = {
   aiOut: null,
   fs: 1,
   pollShow: false,
+  socOrg: '',
 };
 const saveCart = () => store.set('bm.cart', S.cart);
 const P = id => PRODUCTS.find(p => p.id === id);
@@ -105,7 +106,7 @@ function parse() { return location.hash.replace(/^#\/?/, '').split('/').filter(B
 function render(keepScroll) {
   const seg = parse(), mod = seg[0] || '';
   let html, title;
-  if (mod === 'mttq') { html = govPage(seg.slice(1)); title = 'Cổng thông tin MTTQ xã Bình Minh'; }
+  if (mod === 'mttq') { html = govPage(seg.slice(1)); title = 'Trang thông tin Ủy ban MTTQ Việt Nam xã Bình Minh'; }
   else if (mod === 'cho') { html = mkPage(seg.slice(1)); title = 'Chợ OCOP Bình Minh'; }
   else if (mod === 'quan-tri') { html = adminPage(); title = 'Quản trị – Bình Minh Kết Nối'; }
   else if (mod === 'dien-thoai') { html = phonePage(); title = 'Trên điện thoại'; }
@@ -120,7 +121,7 @@ function render(keepScroll) {
 window.addEventListener('hashchange', () => { closeModal(); render(); });
 
 function demoBar(mod) {
-  const tabs = [['', '#/', 'Tổng quan đề xuất'], ['mttq', '#/mttq', 'Cổng MTTQ xã'], ['cho', '#/cho', 'Chợ OCOP'], ['quan-tri', '#/quan-tri', 'Trang quản trị'], ['dien-thoai', '#/dien-thoai', 'Trên điện thoại']];
+  const tabs = [['', '#/', 'Tổng quan đề xuất'], ['mttq', '#/mttq', 'Trang MTTQ xã'], ['cho', '#/cho', 'Chợ OCOP'], ['quan-tri', '#/quan-tri', 'Trang quản trị'], ['dien-thoai', '#/dien-thoai', 'Trên điện thoại']];
   return `<div class="demobar"><div class="in"><span class="tag">BẢN DEMO</span><span class="note">Dữ liệu minh họa, không phải số liệu chính thức</span>
     <nav aria-label="Phân hệ demo">${tabs.map(([k, h, t]) => `<a href="${h}" class="${k === mod ? 'on' : ''}">${t}</a>`).join('')}</nav></div></div>`;
 }
@@ -149,7 +150,7 @@ function mkHeader(active) {
   const n = cartCount();
   return `<header>
     <div class="mk-strip"><div class="wrap"><span>Sàn giới thiệu, kết nối tiêu thụ sản phẩm OCOP xã Bình Minh · Ủy ban MTTQ và Hội Nông dân xã bảo trợ</span>
-      <span class="r"><a href="#/mttq">Cổng MTTQ xã</a><a href="#/dien-thoai">Zalo Mini App</a><span>Hotline 0238 3xxx xxx</span><a href="#/quan-tri">Đăng nhập người bán</a></span></div></div>
+      <span class="r"><a href="#/mttq">Trang MTTQ xã</a><a href="#/dien-thoai">Zalo Mini App</a><span>Hotline 0238 3xxx xxx</span><a href="#/quan-tri">Đăng nhập người bán</a></span></div></div>
     <div class="mk-top"><div class="wrap">
       <a class="mk-logo" href="#/cho"><span class="lg">${ART.mkLogo()}</span><span><small>Chợ OCOP</small><b>Bình Minh</b></span></a>
       <form class="mk-search" data-form="mk-search" role="search"><input name="q" value="${esc(S.filt.q)}" placeholder="Tìm gạo, ốc, mật ong, tương…" aria-label="Tìm sản phẩm"><button aria-label="Tìm">${ic('search')}</button></form>
@@ -158,7 +159,7 @@ function mkHeader(active) {
         <a class="btn green sm cartbtn" href="#/cho/gio-hang">${ic('cart', 'sm')} Giỏ hàng${n ? `<span class="n">${n}</span>` : ''}</a>
       </div>
     </div></div>
-    <nav class="mk-nav" aria-label="Danh mục"><div class="wrap">${MK_NAV.map(([k, t, h]) => `<a ${h} class="${k === active ? 'on' : ''}">${t}</a>`).join('')}<a class="alt" href="#/mttq">Cổng MTTQ xã ↗</a></div></nav>
+    <nav class="mk-nav" aria-label="Danh mục"><div class="wrap">${MK_NAV.map(([k, t, h]) => `<a ${h} class="${k === active ? 'on' : ''}">${t}</a>`).join('')}<a class="alt" href="#/mttq">Trang MTTQ xã ↗</a></div></nav>
   </header>`;
 }
 
@@ -181,7 +182,7 @@ function pcard(p) {
 }
 
 const SLIDES = [
-  { img: 'banner', kick: 'Đặc sản 42 xóm · xã Bình Minh, Nghệ An', title: 'Mua tận gốc nông sản quê Bình Minh', text: 'Gạo, ốc, gà đồi, mật ong, tương nếp… từ hợp tác xã và bà con. Biết rõ ai làm ra, quét QR xem nguồn gốc, tiền chuyển thẳng cho người sản xuất.', btn: 'Mua sắm ngay', href: '#/cho/san-pham', filt: '{}' },
+  { img: 'banner', kick: 'Đặc sản 20 xóm · xã Bình Minh, Nghệ An', title: 'Mua tận gốc nông sản quê Bình Minh', text: 'Gạo, ốc, gà đồi, mật ong, tương nếp… từ hợp tác xã và bà con. Biết rõ ai làm ra, quét QR xem nguồn gốc, tiền chuyển thẳng cho người sản xuất.', btn: 'Mua sắm ngay', href: '#/cho/san-pham', filt: '{}' },
   { img: 'honey', kick: 'Sản phẩm OCOP 3 – 4 sao', title: 'Chất lượng được thẩm định, có tem truy xuất', text: 'Mật ong hoa rừng, chè vằng, gạo thơm Bàu Canh, tương nếp, gà đồi… đạt hạng sao theo Bộ tiêu chí OCOP (dữ liệu minh họa).', btn: 'Xem sản phẩm OCOP', href: '#/cho/san-pham', filt: '{"ocop":"ocop"}' },
   { img: 'temple_gate', kick: 'Du lịch cộng đồng', title: 'Một ngày làm nông & viếng đền Canh', text: 'Cấy lúa, bắt ốc, nấu cơm cùng bà con; nghe chuyện bàu Canh, viếng di tích lịch sử – văn hóa cấp tỉnh.', btn: 'Đặt lịch trải nghiệm', href: '#/cho/sp/trai-nghiem-bau-canh' },
 ];
@@ -500,7 +501,7 @@ function adminPage() {
   else if (S.admTab === 'ai') main = admAI();
   else main = admOverview();
   return `<div class="adm">
-    <aside class="adm-side"><div class="brand"><span class="emblem">${ART.emblem()}</span><span>Bình Minh Kết Nối<br><small style="font-weight:400;opacity:.7">Trang quản trị</small></span></div>
+    <aside class="adm-side"><div class="brand"><span class="emblem"><img src="logo-mttq.png" alt=""></span><span>Bình Minh Kết Nối<br><small style="font-weight:400;opacity:.7">Trang quản trị</small></span></div>
       ${tabs.map(([k, t, i]) => `<button class="${S.admTab === k ? 'on' : ''}" data-act="adm-tab" data-v="${k}">${ic(i, 'sm')} ${t}${k === 'phan-anh' ? ` <span class="pill st1" style="margin-left:auto">${allReports().filter(r => r.status < 3).length}</span>` : ''}</button>`).join('')}
       <div class="who"><b>Cán bộ MTTQ xã</b>Quyền: quản trị nội dung, phản ánh, quỹ</div>
     </aside>
@@ -538,7 +539,7 @@ function admOverview() {
       <div class="kpi"><span>Gian hàng đang hoạt động</span><b>${SELLERS.length}</b><small>${S.pending.length} hồ sơ chờ duyệt</small></div>
       <div class="kpi"><span>Người theo dõi Zalo OA</span><b>4.860</b><small>~53% số hộ trong xã</small></div>
       <div class="kpi"><span>Quỹ Vì người nghèo – tồn</span><b>262,9 tr</b><small>Công khai theo sao kê</small></div>
-      <div class="kpi"><span>Xóm cập nhật tin trong tháng</span><b>37/42</b><small>5 xóm cần nhắc</small></div>
+      <div class="kpi"><span>Xóm cập nhật tin trong tháng</span><b>18/20</b><small>2 xóm cần nhắc</small></div>
     </div>
     <div class="adm-grid">
       <div class="box"><h3>Đơn hàng Chợ OCOP theo tháng <small>đơn</small></h3>${barChart(ADMIN.orders, ADMIN.months, '#2d6a35')}</div>
@@ -556,7 +557,7 @@ function admOverview() {
 
 function admReports() {
   const reps = allReports();
-  return `<div class="adm-head"><div><h1>Phản ánh – kiến nghị</h1><p>Chuyển xử lý, cập nhật kết quả. Thay đổi ở đây hiển thị ngay trên Cổng thông tin và báo về Zalo người gửi.</p></div><a class="btn ghost sm" href="#/mttq/phan-anh">Xem trên Cổng ↗</a></div>
+  return `<div class="adm-head"><div><h1>Phản ánh – kiến nghị</h1><p>Chuyển xử lý, cập nhật kết quả. Thay đổi ở đây hiển thị ngay trên Trang thông tin và báo về Zalo người gửi.</p></div><a class="btn ghost sm" href="#/mttq/phan-anh">Xem trên Trang ↗</a></div>
     <div class="tblwrap"><table class="tbl"><thead><tr><th>Mã</th><th>Nội dung</th><th>Xóm</th><th>Ngày</th><th>Trạng thái</th></tr></thead><tbody>
     ${reps.map(r => `<tr><td><b>${r.code}</b></td><td><div style="font-weight:600">${esc(r.title)}</div><div class="small muted">${r.field} · Người gửi: ${esc(r.by || 'Ẩn danh')}</div>
       ${r.status < 3 ? `<form class="ans" data-form="answer" data-code="${r.code}"><input class="input" name="ans" placeholder="Nhập kết quả trả lời để đóng phản ánh…"><button class="btn green sm">Trả lời</button></form>` : `<div class="answer" style="margin-top:6px">${esc(r.answer)}</div>`}</td>
@@ -625,7 +626,7 @@ function phonePage() {
       <figcaption>${cap}<span>${sub}</span></figcaption></figure>`;
   return `<div class="ph-page"><div class="wrap">
     <div class="ph-head"><span class="eyebrow">Kênh chính: Zalo</span><h1>Bà con dùng ngay trên điện thoại</h1>
-      <p>Chợ OCOP chạy dưới dạng Zalo Mini App; Cổng MTTQ gắn vào menu Zalo OA của xã. Không cần cài thêm ứng dụng, không cần tạo tài khoản mới. Hai màn hình dưới đây bấm thử được.</p></div>
+      <p>Chợ OCOP chạy dưới dạng Zalo Mini App; Trang MTTQ gắn vào menu Zalo OA của xã. Không cần cài thêm ứng dụng, không cần tạo tài khoản mới. Hai màn hình dưới đây bấm thử được.</p></div>
     <div class="phones">
       ${ph('Chợ OCOP Bình Minh', 'Zalo Mini App · Chợ OCOP', 'Xem sản phẩm, đặt hàng, quét QR thanh toán', '#/cho')}
       ${ph('MTTQ xã Bình Minh', 'Zalo OA · Gửi phản ánh', 'Gửi ý kiến kèm ảnh, nhận kết quả qua Zalo', '#/mttq/phan-anh')}
@@ -644,8 +645,8 @@ function overviewPage() {
       <span class="eyebrow">Đề xuất định hướng · Làm việc với xã Bình Minh, tỉnh Nghệ An</span>
       <h1>Bình Minh Kết Nối</h1>
       <p class="lead">Một nền tảng số dùng chung cho Ủy ban MTTQ, các tổ chức thành viên và người sản xuất của xã: đưa thông tin tới dân, lắng nghe ý kiến của dân, công khai quỹ, và đưa đặc sản địa phương ra thị trường. Chạy trên website và Zalo, bà con dùng ngay trên điện thoại.</p>
-      <div class="acts"><a class="btn red lg" href="#/mttq">Xem Cổng MTTQ ${ic('arrow', 'sm')}</a><a class="btn green lg" href="#/cho">Xem Chợ OCOP ${ic('arrow', 'sm')}</a></div>
-      <div class="facts"><span>Hợp nhất từ <b>4 xã</b>: Đức Thành, Mã Thành, Tân Thành, Tiến Thành</span><span><b>91,08 km²</b></span><span><b>37.031</b> nhân khẩu</span><span><b>42</b> xóm</span></div>
+      <div class="acts"><a class="btn red lg" href="#/mttq">Xem Trang MTTQ ${ic('arrow', 'sm')}</a><a class="btn green lg" href="#/cho">Xem Chợ OCOP ${ic('arrow', 'sm')}</a></div>
+      <div class="facts"><span>Hợp nhất từ <b>4 xã</b>: Đức Thành, Mã Thành, Tân Thành, Tiến Thành</span><span><b>91,08 km²</b></span><span><b>37.031</b> nhân khẩu</span><span><b>20</b> xóm</span></div>
     </div>
     <div class="pic">${ph('harvest')}</div>
   </div></section>
@@ -660,8 +661,8 @@ function overviewPage() {
 
     <section class="ov-sec"><h2>Một nền tảng – hai phân hệ</h2><p class="sub">Dùng chung tài khoản, dữ liệu và kênh Zalo; triển khai từng bước, mỗi bước đều dùng được ngay.</p>
       <div class="mods">
-        <div class="mod"><div class="art">${ph('gathering')}</div><div class="b"><span class="eyebrow">Phân hệ 1</span><h3>Cổng thông tin MTTQ xã</h3>
-          <ul><li>Tin hoạt động của MTTQ và 4 tổ chức thành viên, theo từng xóm</li><li>Phản ánh – kiến nghị có mã tra cứu, theo dõi đến khi có kết quả</li><li>Công khai thu – chi Quỹ “Vì người nghèo”, ủng hộ bằng VietQR</li><li>Lấy ý kiến Nhân dân: khảo sát sự hài lòng, góp ý dự thảo</li><li>Danh bạ Ban công tác Mặt trận 42 xóm; trợ lý hỏi đáp</li></ul>
+        <div class="mod"><div class="art">${ph('gathering')}</div><div class="b"><span class="eyebrow">Phân hệ 1</span><h3>Trang thông tin MTTQ xã</h3>
+          <ul><li>Tin hoạt động của MTTQ, 4 tổ chức chính trị – xã hội và các hội xã hội; chuyên mục Dân vận – Tuyên giáo, Dân vận – Tôn giáo</li><li>Tự động dẫn tin từ trang Mặt trận Trung ương và tỉnh Nghệ An</li><li>Phản ánh – kiến nghị có mã tra cứu, theo dõi đến khi có kết quả</li><li>Công khai thu – chi Quỹ “Vì người nghèo”, ủng hộ bằng VietQR</li><li>Lấy ý kiến Nhân dân: khảo sát sự hài lòng, góp ý dự thảo</li><li>Danh bạ Ban công tác Mặt trận 20 xóm; trợ lý hỏi đáp</li></ul>
           <a class="btn red" href="#/mttq">Xem demo ${ic('arrow', 'sm')}</a></div></div>
         <div class="mod"><div class="art">${ph('rice_sacks')}</div><div class="b"><span class="eyebrow" style="color:var(--green)">Phân hệ 2</span><h3>Chợ OCOP Bình Minh</h3>
           <ul><li>Gian hàng cho HTX, tổ hợp tác, hộ sản xuất đã được xã xác minh</li><li>Câu chuyện sản phẩm và tem QR truy xuất nguồn gốc</li><li>Đặt hàng, thanh toán VietQR thẳng cho người bán, giao qua bưu chính</li><li>Lịch mùa vụ; du lịch trải nghiệm (đền Canh, làm nông)</li><li>AI giúp bà con viết mô tả, bài đăng, kịch bản livestream</li></ul>
@@ -672,11 +673,11 @@ function overviewPage() {
 
     <section class="ov-sec"><h2>Kiến trúc giải pháp</h2><p class="sub">Đi theo thói quen sẵn có của bà con (Zalo, chuyển khoản QR, bưu điện), kết nối với hạ tầng có sẵn thay vì xây mới.</p>
       <div class="arch">
-        <div class="col"><h4>Người dùng</h4><div class="node">Người dân 42 xóm</div><div class="node">Hộ sản xuất, HTX, tổ hợp tác</div><div class="node">Ban CTMT xóm, tổ chức thành viên</div><div class="node">Khách mua trong và ngoài tỉnh</div></div>
+        <div class="col"><h4>Người dùng</h4><div class="node">Người dân 20 xóm</div><div class="node">Hộ sản xuất, HTX, tổ hợp tác</div><div class="node">Ban CTMT xóm, tổ chức thành viên</div><div class="node">Khách mua trong và ngoài tỉnh</div></div>
         ${arrow}
         <div class="col"><h4>Kênh tiếp cận</h4><div class="node">Zalo OA & Mini App<small>Kênh chính, không cài thêm</small></div><div class="node">Website<small>Tên miền riêng của xã</small></div><div class="node">Tem QR trên bao bì<small>Truy xuất, mua lại</small></div><div class="node">Tổ công nghệ số cộng đồng<small>Hỗ trợ tận nhà</small></div></div>
         ${arrow}
-        <div class="col core"><h4>Nền tảng Bình Minh Kết Nối</h4><div class="node">Cổng thông tin MTTQ</div><div class="node">Chợ OCOP Bình Minh</div><div class="node">Quản trị & phân quyền<small>MTTQ, 4 tổ chức, 42 xóm, người bán</small></div><div class="node">Trợ lý AI<small>Hỏi đáp; viết nội dung bán hàng</small></div><div class="node">Dữ liệu & báo cáo</div></div>
+        <div class="col core"><h4>Nền tảng Bình Minh Kết Nối</h4><div class="node">Trang thông tin MTTQ</div><div class="node">Chợ OCOP Bình Minh</div><div class="node">Quản trị & phân quyền<small>MTTQ, tổ chức thành viên, các hội, 20 xóm, người bán</small></div><div class="node">Trợ lý AI<small>Hỏi đáp; viết nội dung bán hàng</small></div><div class="node">Dữ liệu & báo cáo</div></div>
         ${arrow}
         <div class="col"><h4>Kết nối</h4><div class="node">Ngân hàng – VietQR<small>Tiền về thẳng người bán / Quỹ</small></div><div class="node">Bưu điện, Viettel Post</div><div class="node">Sàn TMĐT lớn, cửa hàng OCOP tỉnh</div><div class="node">Cổng TTĐT, dịch vụ công của tỉnh</div></div>
       </div></section>
@@ -684,7 +685,7 @@ function overviewPage() {
     <section class="ov-sec"><h2>Lộ trình đề xuất</h2><p class="sub">Ra mắt sớm với phần cốt lõi, gắn với các mốc của xã để có người dùng thật ngay từ đầu.</p>
       <div class="phases">
         <div class="phase"><span class="when">Giai đoạn 1 · T10 – T11/2026 (6–8 tuần)</span><h3>Khởi động</h3>
-          <ul><li>Cổng MTTQ: tin hoạt động, phản ánh có mã tra cứu, công khai quỹ, danh bạ 42 xóm</li><li>Chợ OCOP: 20–30 sản phẩm đầu tiên, đặt hàng qua Zalo/điện thoại</li><li>Mở Zalo OA của xã; tập huấn cán bộ, Ban CTMT xóm, người bán</li></ul>
+          <ul><li>Trang MTTQ: tin hoạt động, phản ánh có mã tra cứu, công khai quỹ, danh bạ 20 xóm</li><li>Chợ OCOP: 20–30 sản phẩm đầu tiên, đặt hàng qua Zalo/điện thoại</li><li>Mở Zalo OA của xã; tập huấn cán bộ, Ban CTMT xóm, người bán</li></ul>
           <div class="goal"><b>Mốc:</b> ra mắt tại Ngày hội Đại đoàn kết toàn dân tộc 18/11/2026</div></div>
         <div class="phase"><span class="when">Giai đoạn 2 · T12/2026 – T2/2027</span><h3>Bán hàng mùa Tết</h3>
           <ul><li>Giỏ hàng, thanh toán VietQR, kết nối đơn vị vận chuyển</li><li>Tem QR truy xuất cho sản phẩm chủ lực; Zalo Mini App</li><li>Trợ lý AI cho người bán; khảo sát, lấy ý kiến trực tuyến</li></ul>
@@ -704,13 +705,13 @@ function overviewPage() {
 
     <section class="ov-sec"><h2>Phân công phối hợp</h2>
       <div class="roles">
-        <div class="role"><h3>Xã Bình Minh (UBND, Ủy ban MTTQ)</h3><ul><li>Chủ trì, ban hành kế hoạch và quy chế vận hành, kiểm duyệt nội dung</li><li>Cử đầu mối: 01 cán bộ MTTQ, 01 cán bộ phụ trách kinh tế – nông nghiệp</li><li>Cung cấp dữ liệu: sản phẩm, chủ thể sản xuất, Ban CTMT 42 xóm, thông tin Quỹ</li><li>Trả lời phản ánh theo quy trình; huy động Đoàn Thanh niên, Hội Nông dân, Hội Phụ nữ hỗ trợ bà con</li></ul></div>
+        <div class="role"><h3>Xã Bình Minh (UBND, Ủy ban MTTQ)</h3><ul><li>Chủ trì, ban hành kế hoạch và quy chế vận hành, kiểm duyệt nội dung</li><li>Cử đầu mối: 01 cán bộ MTTQ, 01 cán bộ phụ trách kinh tế – nông nghiệp</li><li>Cung cấp dữ liệu: sản phẩm, chủ thể sản xuất, Ban CTMT 20 xóm, thông tin Quỹ</li><li>Trả lời phản ánh theo quy trình; huy động Đoàn Thanh niên, Hội Nông dân, Hội Phụ nữ hỗ trợ bà con</li></ul></div>
         <div class="role"><h3>Đơn vị đồng hành (tư vấn – kỹ thuật)</h3><ul><li>Thiết kế, xây dựng, vận hành kỹ thuật, bảo mật và sao lưu dữ liệu</li><li>Chụp ảnh, viết câu chuyện cho 20–30 sản phẩm đầu tiên</li><li>Tập huấn cán bộ, Ban CTMT xóm, người bán (bán hàng trên mạng, livestream)</li><li>Hỗ trợ kết nối ngân hàng (VietQR), bưu chính, sàn TMĐT, cửa hàng OCOP</li></ul></div>
       </div></section>
 
     <section class="ov-sec"><h2>Chỉ tiêu đề xuất sau 12 tháng</h2>
       <div class="kpi-list">
-        <div><span>Xóm có Ban CTMT sử dụng hệ thống (đăng tin, nhận phản ánh)</span><b>42/42 xóm</b></div>
+        <div><span>Xóm có Ban CTMT sử dụng hệ thống (đăng tin, nhận phản ánh)</span><b>20/20 xóm</b></div>
         <div><span>Phản ánh được phản hồi; thời gian xử lý trung bình</span><b>100% · ≤ 7 ngày làm việc</b></div>
         <div><span>Khoản thu – chi Quỹ “Vì người nghèo” công khai trực tuyến</span><b>100%</b></div>
         <div><span>Sản phẩm / gian hàng trên Chợ OCOP</span><b>≥ 50 / ≥ 30</b></div>
@@ -760,6 +761,8 @@ document.addEventListener('click', e => {
         <div class="acts"><button class="btn gold" data-act="close-modal">Đã chuyển khoản</button></div><p class="small muted" style="margin-top:10px">Mã QR minh họa</p>`);
       break;
     case 'zalo-group': toast(`Demo: mở nhóm Zalo của xóm ${v}`); break;
+    case 'soc': S.socOrg = v; if (location.hash === el.getAttribute('href')) render(true); break;
+    case 'soc-f': S.socOrg = v; render(true); break;
     case 'poll-show': S.pollShow = true; render(true); break;
     case 'fs': S.fs = v === '0' ? 1 : Math.max(0, Math.min(2, S.fs + Number(v))); render(true); break;
     case 'demo-page': toast('Bản demo chỉ có 1 trang dữ liệu mẫu'); break;
@@ -859,7 +862,7 @@ document.addEventListener('submit', e => {
     case 'doc-filter': toast('Demo: lọc văn bản theo điều kiện đã chọn'); break;
     case 'report': {
       const code = `PA-2026-${String(159 + S.myReports.length).padStart(4, '0')}`;
-      S.myReports.unshift({ code, title: d.title, field: d.field, xom: d.xom, date: today(), status: 0, by: d.anon ? 'Ẩn danh' : (d.name || 'Ẩn danh'), steps: [[today().slice(0, 5), 'Tiếp nhận qua Cổng thông tin']], answer: '' });
+      S.myReports.unshift({ code, title: d.title, field: d.field, xom: d.xom, date: today(), status: 0, by: d.anon ? 'Ẩn danh' : (d.name || 'Ẩn danh'), steps: [[today().slice(0, 5), 'Tiếp nhận qua Trang thông tin']], answer: '' });
       store.set('bm.reports', S.myReports); S.uploaded = false;
       render(true);
       modal(`<div class="big-ic">${ic('check')}</div><h3>Đã gửi phản ánh</h3><p>Mã tra cứu của ông/bà:</p><div class="code">${code}</div>
@@ -899,7 +902,7 @@ document.addEventListener('submit', e => {
       if (!ans) { toast('Nhập nội dung trả lời'); break; }
       const o = S.rStatus[code] || {};
       S.rStatus[code] = { ...o, status: 3, answer: ans, steps: [...(o.steps || []), [today().slice(0, 5), 'Đã trả lời, đóng phản ánh']] };
-      store.set('bm.rstatus', S.rStatus); render(true); toast(`${code}: đã trả lời · hiển thị trên Cổng và báo Zalo người gửi`);
+      store.set('bm.rstatus', S.rStatus); render(true); toast(`${code}: đã trả lời · hiển thị trên Trang thông tin và báo Zalo người gửi`);
       break;
     }
     case 'ai': {

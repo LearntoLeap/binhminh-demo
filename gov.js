@@ -17,9 +17,10 @@ const catNews = (id, n = 99) => sortedNews().filter(x => x.cat === id).slice(0, 
 
 const GOV_MENU = [
   ['', 'Trang chủ'],
-  ['gioi-thieu', 'Giới thiệu', [['gioi-thieu', 'Tổng quan xã Bình Minh'], ['co-cau', 'Cơ cấu tổ chức'], ['xom', 'Ban công tác Mặt trận 42 xóm']]],
-  ['chuyen-muc/hoat-dong', 'Tin tức – Sự kiện', [['chuyen-muc/hoat-dong', 'Hoạt động Mặt trận'], ['chuyen-muc/hoi-nong-dan', 'Hội Nông dân'], ['chuyen-muc/hoi-lhpn', 'Hội Liên hiệp Phụ nữ'], ['chuyen-muc/doan-thanh-nien', 'Đoàn Thanh niên'], ['chuyen-muc/hoi-ccb', 'Hội Cựu chiến binh']]],
+  ['gioi-thieu', 'Giới thiệu', [['gioi-thieu', 'Tổng quan xã Bình Minh'], ['co-cau', 'Cơ cấu tổ chức'], ['xom', 'Ban công tác Mặt trận 20 xóm']]],
+  ['chuyen-muc/hoat-dong', 'Tin tức – Sự kiện', [['chuyen-muc/hoat-dong', 'Hoạt động Mặt trận'], ['chuyen-muc/hoi-nong-dan', 'Hội Nông dân'], ['chuyen-muc/hoi-lhpn', 'Hội Liên hiệp Phụ nữ'], ['chuyen-muc/doan-thanh-nien', 'Đoàn Thanh niên'], ['chuyen-muc/hoi-ccb', 'Hội Cựu chiến binh'], ['chuyen-muc/hoi-xa-hoi', 'Các hội xã hội'], ['tin-cap-tren', 'Tin Mặt trận Trung ương và tỉnh']]],
   ['chuyen-muc/giam-sat', 'Giám sát – Phản biện'],
+  ['chuyen-muc/tuyen-giao', 'Dân vận', [['chuyen-muc/tuyen-giao', 'Dân vận – Tuyên giáo'], ['chuyen-muc/ton-giao', 'Dân vận – Tôn giáo']]],
   ['chuyen-muc/dai-doan-ket', 'An sinh xã hội', [['chuyen-muc/dai-doan-ket', 'Đại đoàn kết – An sinh xã hội'], ['quy', 'Quỹ "Vì người nghèo" – công khai thu, chi']]],
   ['van-ban', 'Văn bản', [['van-ban', 'Văn bản của Ủy ban MTTQ xã'], ['lich-cong-tac', 'Lịch công tác']]],
   ['phan-anh', 'Phản ánh – Kiến nghị'],
@@ -32,6 +33,7 @@ function govPage(seg) {
   if (p === 'chuyen-muc') { body = govCat(seg[1]); act = 'chuyen-muc/' + seg[1]; }
   else if (p === 'tin') { const n = NEWS.find(x => x.id === seg[1]); body = govArticle(n); act = n ? 'chuyen-muc/' + n.cat : ''; }
   else if (p === 'tim-kiem') body = govSearch(seg[1] || '');
+  else if (p === 'tin-cap-tren') body = govFeeds();
   else if (p === 'gioi-thieu') body = govAbout();
   else if (p === 'co-cau') body = govOrg();
   else if (p === 'van-ban') body = govDocs();
@@ -53,10 +55,10 @@ function govHeader(act) {
   return `<header>
     <div class="g-topbar"><div class="g-wrap"><span>${ic('calendar', 'sm')} ${longDate()}</span>
       <nav><a href="#/mttq/gioi-thieu">Giới thiệu</a><a href="#/mttq/lien-he">Liên hệ</a><a href="#/dien-thoai">Zalo OA</a><a href="#/cho">Chợ OCOP</a><a href="#/quan-tri">${ic('user', 'sm')} Đăng nhập</a></nav></div></div>
-    <div class="g-banner"><div class="bg">${ph('banner')}</div><div class="drum">${ART.drum()}</div>
+    <div class="g-banner">
       <div class="g-wrap in">
-        <a class="emb" href="#/mttq" aria-label="Trang chủ">${ART.emblem()}</a>
-        <div class="ttl"><div class="l1">Ủy ban Mặt trận Tổ quốc Việt Nam</div><div class="l2">XÃ BÌNH MINH</div><div class="l3">Tỉnh Nghệ An · Cổng thông tin điện tử</div></div>
+        <a class="logo" href="#/mttq" aria-label="Trang chủ"><img src="logo-mttq.png" alt="Biểu trưng Mặt trận Tổ quốc Việt Nam"></a>
+        <div class="ttl"><div class="l1">Ủy ban Mặt trận Tổ quốc Việt Nam</div><div class="l2">Xã Bình Minh</div><div class="l3">Trang thông tin điện tử<span> · Tỉnh Nghệ An</span></div></div>
         <div class="slogan">Chào mừng kỷ niệm 96 năm Ngày truyền thống<br>Mặt trận Tổ quốc Việt Nam<b>18/11/1930 – 18/11/2026</b></div>
       </div></div>
     <nav class="g-nav" aria-label="Chuyên mục"><div class="g-wrap"><button class="g-burger" data-act="gnav" aria-label="Mở danh mục">${ic('grid', 'sm')} DANH MỤC</button><ul>
@@ -69,13 +71,13 @@ function govHeader(act) {
 
 function govFooter() {
   return `<footer class="g-foot"><div class="g-wrap in">
-    <div class="emb">${ART.emblem()}</div>
-    <div class="info"><h4>Cổng thông tin điện tử Ủy ban Mặt trận Tổ quốc Việt Nam xã Bình Minh</h4>
+    <div class="emb"><img src="logo-mttq.png" alt=""></div>
+    <div class="info"><h4>Trang thông tin điện tử Ủy ban Mặt trận Tổ quốc Việt Nam xã Bình Minh</h4>
       <p>Cơ quan chủ quản: Ủy ban MTTQ Việt Nam xã Bình Minh, tỉnh Nghệ An</p>
       <p>Chịu trách nhiệm chính: Chủ tịch Ủy ban MTTQ Việt Nam xã Bình Minh</p>
       <p>Địa chỉ: Trụ sở cơ quan xã Bình Minh, tỉnh Nghệ An · Điện thoại: 0238 3xxx xxx</p></div>
     <div class="links"><a href="#/mttq/gioi-thieu">Giới thiệu</a><a href="#/mttq/co-cau">Cơ cấu tổ chức</a><a href="#/mttq/van-ban">Văn bản</a><a href="#/mttq/phan-anh">Phản ánh – Kiến nghị</a><a href="#/mttq/lien-he">Liên hệ</a><a href="#/mttq/nguon-anh">Nguồn ảnh</a></div>
-  </div><div class="g-copy">Ghi rõ nguồn "Cổng thông tin điện tử Ủy ban MTTQ Việt Nam xã Bình Minh" khi phát hành lại thông tin từ website này.<br><b>BẢN DEMO</b> · Tin bài, số liệu, tên người là minh họa · Ảnh minh họa giấy phép mở, xem <a href="#/mttq/nguon-anh">Nguồn ảnh</a></div></footer>`;
+  </div><div class="g-copy">Ghi rõ nguồn "Trang thông tin điện tử Ủy ban MTTQ Việt Nam xã Bình Minh" khi phát hành lại thông tin từ website này.<br><b>BẢN DEMO</b> · Tin bài, số liệu, tên người là minh họa · Ảnh minh họa giấy phép mở, xem <a href="#/mttq/nguon-anh">Nguồn ảnh</a></div></footer>`;
 }
 
 /* ---------- Mẩu dựng sẵn ---------- */
@@ -112,12 +114,13 @@ function sidePoll() {
 function govSide() {
   return `
   <a class="s-ban" href="#/mttq/tin/n1"><div class="art">${ph('gathering')}</div><span><small>Hướng tới</small>Ngày hội Đại đoàn kết toàn dân tộc<b>18/11/2026</b></span></a>
-  <a class="s-ban green" href="#/cho"><div class="art">${ph('rice_sacks')}</div><span><small>Sàn giới thiệu sản phẩm</small>Chợ OCOP Bình Minh<b>Đặc sản 42 xóm</b></span></a>
+  <a class="s-ban green" href="#/cho"><div class="art">${ph('rice_sacks')}</div><span><small>Sàn giới thiệu sản phẩm</small>Chợ OCOP Bình Minh<b>Đặc sản 20 xóm</b></span></a>
   <div class="s-links">
     <a class="red" href="#/mttq/phan-anh">${ic('msg')} Gửi phản ánh – kiến nghị</a>
     <a class="gold" href="#/mttq/quy">${ic('heart')} Ủng hộ Quỹ "Vì người nghèo"</a>
     <button class="blue" data-act="chat-open">${ic('chat')} Hỏi đáp trực tuyến</button>
   </div>
+  <div class="s-box"><h3>Tin Mặt trận cấp trên</h3><div class="s-feed"><b class="src">Trung ương</b>${feedList(FEEDS.tw, 3, false)}<b class="src">Tỉnh Nghệ An</b>${feedList(FEEDS.tinh, 3, false)}</div><a class="s-more" href="#/mttq/tin-cap-tren">Xem thêm ›</a></div>
   <div class="s-box"><h3>Lịch công tác</h3><ul class="s-cal">${SCHEDULE.slice(1, 5).map(([d, t, w, at]) => `<li><b>${d} · ${t}</b>${esc(w)}<span>${esc(at)}</span></li>`).join('')}</ul><a class="s-more" href="#/mttq/lich-cong-tac">Xem lịch tuần ›</a></div>
   <div class="s-box"><h3>Văn bản mới</h3><ul class="s-docs">${DOCS.slice(0, 5).map(d => `<li><a href="#/mttq/van-ban"><b>${d[0]}</b> ${esc(d[3])}</a><time>${d[1]}</time></li>`).join('')}</ul><a class="s-more" href="#/mttq/van-ban">Xem tất cả ›</a></div>
   <div class="s-box"><h3>Thăm dò ý kiến</h3>${sidePoll()}</div>
@@ -135,7 +138,7 @@ function govHome() {
   const hd = catNews('hoat-dong').filter(n => n.id !== feat.id);
   const ton = FUND.open + FUND.thu - FUND.chi;
   const gal = [['gathering', 'Ngày hội Đại đoàn kết ở khu dân cư'], ['training', 'Tập huấn bán hàng trên mạng'], ['house', 'Nhà Đại đoàn kết'], ['temple_gate', 'Đền Canh'], ['harvest', 'Mùa gặt'], ['road_build', 'Làm đường giao thông nông thôn']];
-  const quick = [['phan-anh', 'msg', 'Gửi phản ánh, kiến nghị'], ['phan-anh', 'search', 'Tra cứu kết quả xử lý'], ['quy', 'heart', 'Ủng hộ Quỹ "Vì người nghèo"'], ['y-kien', 'poll', 'Lấy ý kiến Nhân dân'], ['van-ban', 'file', 'Văn bản – Tài liệu'], ['xom', 'users', 'Ban CTMT 42 xóm']];
+  const quick = [['phan-anh', 'msg', 'Gửi phản ánh, kiến nghị'], ['phan-anh', 'search', 'Tra cứu kết quả xử lý'], ['quy', 'heart', 'Ủng hộ Quỹ "Vì người nghèo"'], ['y-kien', 'poll', 'Lấy ý kiến Nhân dân'], ['van-ban', 'file', 'Văn bản – Tài liệu'], ['xom', 'users', 'Ban CTMT 20 xóm']];
   return `
   <section class="g-wrap g-top">
     <a class="g-feat" href="#/mttq/tin/${feat.id}"><div class="art">${ph(feat.img)}</div><div class="cap"><h2>${esc(feat.title)}</h2><time>${ic('clock', 'sm')} ${feat.date}</time><p>${esc(feat.sum)}</p></div></a>
@@ -145,9 +148,12 @@ function govHome() {
   <div class="g-wrap g-cols"><div class="g-col">
     <section class="g-blk">${gh('Hoạt động Mặt trận', '#/mttq/chuyen-muc/hoat-dong')}
       <div class="g-blk-wide">${nLead(hd[0])}<ul class="g-lines">${hd.slice(1, 5).map(nLine).join('')}</ul></div></section>
+    ${feedsBlock(5)}
     <div class="g-grid2">${ORG_CATS.map(id => catBlock(id)).join('')}</div>
+    ${socBlock()}
     <a class="g-promo" href="#/mttq/chuyen-muc/hoat-dong"><div class="art">${ph('countryside')}</div><div class="t"><small>Cuộc vận động</small>"Toàn dân đoàn kết xây dựng nông thôn mới, đô thị văn minh"</div></a>
     <div class="g-grid2">${catBlock('giam-sat')}${catBlock('dai-doan-ket')}</div>
+    <div class="g-grid2">${catBlock('tuyen-giao')}${catBlock('ton-giao')}</div>
     <section class="g-blk">${gh('Phản ánh – Kiến nghị của Nhân dân', '#/mttq/phan-anh')}
       <div class="stats"><div class="stat"><b>214</b><span>Tiếp nhận năm 2026</span></div><div class="stat"><b>92%</b><span>Đã giải quyết</span></div><div class="stat"><b>4,6 ngày</b><span>Thời gian xử lý trung bình</span></div></div>
       <div class="tblwrap"><table class="tbl"><thead><tr><th>Mã</th><th>Nội dung</th><th>Xóm</th><th>Ngày</th><th>Trạng thái</th></tr></thead><tbody>
@@ -168,12 +174,18 @@ function govHome() {
 
 /* ---------- Chuyên mục, bài viết, tìm kiếm ---------- */
 function newsList(l) {
-  return l.length ? `<div class="g-list">${l.map(n => `<a class="g-li" href="#/mttq/tin/${n.id}"><div class="art">${ph(n.img)}</div><div><h3>${esc(n.title)}</h3><div class="g-meta">${ic('clock', 'sm')} ${n.time} · ${n.date} · ${NC(n.cat)}</div><p>${esc(n.sum)}</p></div></a>`).join('')}</div>` : '<div class="empty">Không có tin bài phù hợp</div>';
+  return l.length ? `<div class="g-list">${l.map(n => `<a class="g-li" href="#/mttq/tin/${n.id}"><div class="art">${ph(n.img)}</div><div><h3>${esc(n.title)}</h3><div class="g-meta">${ic('clock', 'sm')} ${n.time} · ${n.date} · ${n.org ? socName(n.org) : NC(n.cat)}</div><p>${esc(n.sum)}</p></div></a>`).join('')}</div>` : '<div class="empty">Không có tin bài phù hợp</div>';
 }
 const pager = () => `<div class="g-pager"><span class="on">1</span><button data-act="demo-page">2</button><button data-act="demo-page">3</button><button data-act="demo-page">Trang sau ›</button></div>`;
 function govCat(id) {
   if (!NC(id)) return govLayout(`<h1 class="g-pt">Không tìm thấy chuyên mục</h1>`);
-  return govLayout(`${crumb([[null, NC(id)]])}<h1 class="g-pt">${NC(id)}</h1>${newsList(catNews(id))}${pager()}`);
+  let l = catNews(id);
+  let chips = '';
+  if (id === 'hoi-xa-hoi') {
+    if (S.socOrg) l = l.filter(n => n.org === S.socOrg);
+    chips = `<div class="tabs">${[['', 'Tất cả các hội'], ...SOC_ORGS.map(o => [o.id, o.name])].map(([k, t]) => `<button class="tab ${S.socOrg === k ? 'on' : ''}" data-act="soc-f" data-v="${k}">${t}</button>`).join('')}</div>`;
+  }
+  return govLayout(`${crumb([[null, NC(id)]])}<h1 class="g-pt">${NC(id)}</h1>${chips}${newsList(l)}${pager()}`);
 }
 function govSearch(q) {
   const k = norm(q);
@@ -206,23 +218,26 @@ function govAbout() {
     <div class="g-art"><figure><div class="art">${ph('field2')}</div><figcaption>Cánh đồng lúa vùng Yên Thành (ảnh minh họa)</figcaption></figure>
     <div class="body">
       <p>Xã Bình Minh, tỉnh Nghệ An được thành lập trên cơ sở sắp xếp các xã Đức Thành, Mã Thành, Tân Thành và Tiến Thành (thuộc huyện Yên Thành cũ), theo Nghị quyết của Ủy ban Thường vụ Quốc hội về sắp xếp đơn vị hành chính cấp xã của tỉnh Nghệ An năm 2025.</p>
-      <p>Xã có diện tích tự nhiên 91,08 km², quy mô dân số 37.031 người, tổ chức thành 42 xóm. Đời sống của Nhân dân gắn với sản xuất lúa, chăn nuôi, cây ăn quả, chè và các nghề chế biến truyền thống.</p>
+      <p>Xã có diện tích tự nhiên 91,08 km², quy mô dân số 37.031 người, tổ chức thành 20 xóm. Đời sống của Nhân dân gắn với sản xuất lúa, chăn nuôi, cây ăn quả, chè và các nghề chế biến truyền thống.</p>
       <p>Trên địa bàn có nhiều di tích được xếp hạng; tiêu biểu là đền Canh – di tích lịch sử – văn hóa cấp tỉnh (công nhận năm 2017), nơi diễn ra lễ hội truyền thống từ ngày 17 đến 20 tháng Hai âm lịch hằng năm.</p>
     </div></div>
     <table class="g-info"><tbody>
       <tr><th>Hình thành từ</th><td>Các xã Đức Thành, Mã Thành, Tân Thành, Tiến Thành</td></tr>
-      <tr><th>Diện tích tự nhiên</th><td>91,08 km²</td></tr><tr><th>Dân số</th><td>37.031 người</td></tr><tr><th>Đơn vị dân cư</th><td>42 xóm</td></tr>
+      <tr><th>Diện tích tự nhiên</th><td>91,08 km²</td></tr><tr><th>Dân số</th><td>37.031 người</td></tr><tr><th>Đơn vị dân cư</th><td>20 xóm</td></tr>
       <tr><th>Di tích tiêu biểu</th><td>Đền Canh – di tích lịch sử – văn hóa cấp tỉnh (2017)</td></tr>
       <tr><th>Sản phẩm chủ lực</th><td>Gạo thơm, ốc bươu đen, gà đồi, mật ong, chè, tương nếp, giò chả (danh mục minh họa)</td></tr></tbody></table>
     <section class="g-blk">${gh('Hình ảnh quê hương')}<div class="g-cards3">${[['temple_gate', 'Đền Canh'], ['village', 'Làng quê'], ['tea_field', 'Đồi chè']].map(([k, t]) => `<div class="g-card"><div class="art">${ph(k)}</div><h4>${t}</h4></div>`).join('')}</div></section>`);
 }
 function govOrg() {
   const box = (t, s = '') => `<div class="oc-box ${s}">${t}</div>`;
-  const ptc = [['Chủ tịch Ủy ban MTTQ xã', 'Chỉ đạo chung; phụ trách công tác tổ chức, cán bộ'], ['Phó Chủ tịch', 'Phụ trách giám sát, phản biện xã hội; tiếp nhận ý kiến, kiến nghị'], ['Phó Chủ tịch', 'Phụ trách cuộc vận động, an sinh xã hội, Quỹ "Vì người nghèo"'], ['Ủy viên Thường trực', 'Phụ trách tuyên truyền, Cổng thông tin điện tử, chuyển đổi số']];
+  const ptc = [['Chủ tịch Ủy ban MTTQ xã', 'Chỉ đạo chung; phụ trách công tác tổ chức, cán bộ'], ['Phó Chủ tịch', 'Phụ trách giám sát, phản biện xã hội; tiếp nhận ý kiến, kiến nghị'], ['Phó Chủ tịch', 'Phụ trách cuộc vận động, an sinh xã hội, Quỹ "Vì người nghèo"'], ['Ủy viên Thường trực', 'Phụ trách tuyên truyền, Trang thông tin điện tử, chuyển đổi số']];
   return govLayout(`${crumb([['gioi-thieu', 'Giới thiệu'], [null, 'Cơ cấu tổ chức']])}<h1 class="g-pt">Cơ cấu tổ chức</h1>
     <div class="oc">${box('ỦY BAN MẶT TRẬN TỔ QUỐC VIỆT NAM XÃ BÌNH MINH', 'top')}<div class="oc-v"></div>${box('BAN THƯỜNG TRỰC', 'mid')}<div class="oc-v"></div>
       <div class="oc-row">${['Hội Nông dân', 'Hội Liên hiệp Phụ nữ', 'Đoàn Thanh niên', 'Hội Cựu chiến binh'].map(t => box(t)).join('')}</div>
-      <div class="oc-row three">${['Ban Thanh tra nhân dân', 'Ban Giám sát đầu tư của cộng đồng', 'Ban công tác Mặt trận 42 xóm'].map(t => box(t, 'lt')).join('')}</div></div>
+      <div class="oc-cap">Các hội xã hội</div>
+      <div class="oc-row five">${SOC_ORGS.map(o => box(o.name, 'soc')).join('')}</div>
+      <div class="oc-cap">Các ban</div>
+      <div class="oc-row three">${['Ban Thanh tra nhân dân', 'Ban Giám sát đầu tư của cộng đồng', 'Ban công tác Mặt trận 20 xóm'].map(t => box(t, 'lt')).join('')}</div></div>
     <section class="g-blk">${gh('Ban Thường trực Ủy ban MTTQ xã')}
       <div class="g-people">${ptc.map(([c]) => `<div class="person"><div class="ava-ph">${ic('user')}</div><b>Họ và tên</b><span>${c}</span></div>`).join('')}</div>
       <div class="tblwrap"><table class="tbl"><thead><tr><th>Chức vụ</th><th>Họ và tên</th><th>Lĩnh vực phụ trách</th><th>Điện thoại</th></tr></thead><tbody>
@@ -243,7 +258,7 @@ function govSchedule() {
     ${SCHEDULE.map(([d, t, w, at]) => `<tr><td><b>${d}</b></td><td>${t}</td><td>${esc(w)}</td><td>${esc(at)}</td></tr>`).join('')}</tbody></table></div>`);
 }
 
-/* ---------- Phản ánh, Quỹ, Lấy ý kiến, 42 xóm ---------- */
+/* ---------- Phản ánh, Quỹ, Lấy ý kiến, 20 xóm ---------- */
 const gPage = (name, title, intro, inner, parent) => `<div class="g-wrap">${crumb([...(parent ? [parent] : []), [null, name]])}<h1 class="g-pt">${title}</h1><p class="g-intro">${intro}</p>${inner}</div>`;
 function govReports() {
   const reps = allReports().filter(r => S.rFilter === 'all' || String(r.status) === S.rFilter);
@@ -341,7 +356,7 @@ function pollHTML(p) {
 function govXom() {
   const q = norm(S.xomQ);
   const list = XOM.filter(x => !q || norm(`xom ${x.n} ${x.leader}`).includes(q));
-  return gPage('Ban công tác Mặt trận 42 xóm', 'Ban công tác Mặt trận 42 xóm', 'Đầu mối của Mặt trận ở khu dân cư: tiếp nhận ý kiến bà con, tổ chức Ngày hội Đại đoàn kết, vận động an sinh. Mỗi xóm có một nhóm Zalo kết nối với Zalo OA của xã. (Họ tên, số điện thoại là minh họa.)', `
+  return gPage('Ban công tác Mặt trận 20 xóm', 'Ban công tác Mặt trận 20 xóm', 'Đầu mối của Mặt trận ở khu dân cư: tiếp nhận ý kiến bà con, tổ chức Ngày hội Đại đoàn kết, vận động an sinh. Mỗi xóm có một nhóm Zalo kết nối với Zalo OA của xã. (Họ tên, số điện thoại là minh họa.)', `
     <div class="xom-tools"><input class="input" data-input="xom" value="${esc(S.xomQ)}" placeholder="Tìm số xóm hoặc tên trưởng ban…" aria-label="Tìm xóm"><span class="muted small">${list.length} xóm · khoảng ${num(XOM.reduce((a, x) => a + x.households, 0))} hộ</span></div>
     <div class="xom-grid">${list.map(x => `<div class="xom"><span class="n"><small>XÓM</small>${x.n}</span><div><b>${x.leader}</b><span>Trưởng ban CTMT · ${x.phone}</span><br><span>${x.households} hộ</span></div><button class="btn ghost sm z" data-act="zalo-group" data-v="${x.n}" aria-label="Nhóm Zalo xóm ${x.n}">${ic('zalo', 'sm')}</button></div>`).join('')}</div>`, ['gioi-thieu', 'Giới thiệu']);
 }
@@ -379,4 +394,36 @@ function chatAsk(text) {
   const hit = QA.find(q => q.k.some(k => t.includes(norm(k))));
   S.chat.push({ who: 'bot', text: hit ? hit.a + (hit.link ? ` <a href="${hit.link}">Mở mục này →</a>` : '') : 'Câu hỏi của bà con đã được chuyển tới cán bộ Ủy ban MTTQ xã. Bà con sẽ nhận trả lời qua Zalo trong giờ hành chính.' });
   renderChat(true);
+}
+
+/* ---------- Các hội xã hội ---------- */
+const socName = id => (SOC_ORGS.find(o => o.id === id) || {}).name || '';
+function socBlock() {
+  const l = catNews('hoi-xa-hoi');
+  return `<section class="g-blk">${gh('Các hội xã hội', '#/mttq/chuyen-muc/hoi-xa-hoi')}
+    <div class="g-soc">${SOC_ORGS.map(o => `<a href="#/mttq/chuyen-muc/hoi-xa-hoi" data-act="soc" data-v="${o.id}"><span>${ic(o.icon)}</span>${o.name}</a>`).join('')}</div>
+    <div class="g-blk-wide">${nLead(l[0])}<ul class="g-lines">${l.slice(1, 5).map(nLine).join('')}</ul></div></section>`;
+}
+
+/* ---------- Dẫn tin Mặt trận Trung ương và tỉnh ---------- */
+function feedList(f, n, withDate = true) {
+  return `<ul class="g-feed">${f.items.slice(0, n).map(x => `<li><a href="${x.u}" target="_blank" rel="noopener">${esc(x.t)}</a>${withDate && x.d ? ` <time>(${x.d})</time>` : ''}</li>`).join('')}</ul>`;
+}
+function feedCol(f, n) {
+  return `<div class="g-fcol"><div class="g-fsrc"><img src="logo-mttq.png" alt=""><div><b>${f.name}</b><a href="${f.home}" target="_blank" rel="noopener">${f.site} ↗</a></div></div>${feedList(f, n)}</div>`;
+}
+function feedsBlock(n) {
+  return `<section class="g-blk">${gh('Tin Mặt trận Trung ương và tỉnh', '#/mttq/tin-cap-tren')}
+    <div class="g-feeds">${feedCol(FEEDS.tw, n)}${feedCol(FEEDS.tinh, n)}</div>
+    <p class="g-fnote">${ic('clock', 'sm')} Tự động dẫn tin từ trang nguồn · cập nhật ${FEEDS.updated} · Bấm tiêu đề để đọc bài gốc</p></section>`;
+}
+function govFeeds() {
+  return govLayout(`${crumb([['chuyen-muc/hoat-dong', 'Tin tức – Sự kiện'], [null, 'Tin Mặt trận Trung ương và tỉnh']])}<h1 class="g-pt">Tin Mặt trận Trung ương và tỉnh Nghệ An</h1>
+    <p class="g-intro">Trang thông tin của xã tự động dẫn tin mới từ trang của Ủy ban Trung ương MTTQ Việt Nam và Ủy ban MTTQ Việt Nam tỉnh Nghệ An, giúp cán bộ và Nhân dân theo dõi chủ trương, hoạt động của Mặt trận cấp trên ngay tại một nơi.</p>
+    <div class="g-feeds">${feedCol(FEEDS.tw, 8)}${feedCol(FEEDS.tinh, 8)}</div>
+    <p class="g-fnote">${ic('clock', 'sm')} Cập nhật ${FEEDS.updated} · Bấm tiêu đề để mở bài gốc trên trang nguồn</p>
+    <div class="g-howto"><b>Cách hoạt động khi triển khai chính thức</b><ul>
+      <li>Máy chủ đọc RSS/trang tin nguồn định kỳ 30 phút/lần, lọc theo chuyên mục: hoạt động Mặt trận, các cuộc vận động, giám sát – phản biện, dân tộc – tôn giáo.</li>
+      <li>Chỉ hiển thị tiêu đề, ngày đăng và liên kết về bài gốc; không sao chép nội dung, ghi rõ nguồn.</li>
+      <li>Cán bộ quản trị có thể ghim tin quan trọng lên trang chủ hoặc ẩn tin không phù hợp với địa phương.</li></ul></div>`);
 }

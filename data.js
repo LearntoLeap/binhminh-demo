@@ -16,18 +16,29 @@ const NEWS_CATS = [
   { id: 'hoi-ccb', name: 'Hội Cựu chiến binh' },
   { id: 'giam-sat', name: 'Giám sát – Phản biện xã hội' },
   { id: 'dai-doan-ket', name: 'Đại đoàn kết – An sinh xã hội' },
+  { id: 'hoi-xa-hoi', name: 'Các hội xã hội' },
+  { id: 'tuyen-giao', name: 'Dân vận – Tuyên giáo' },
+  { id: 'ton-giao', name: 'Dân vận – Tôn giáo' },
+];
+/* Các hội quần chúng, hội xã hội hoạt động trong khối Mặt trận ở cơ sở */
+const SOC_ORGS = [
+  { id: 'nct', name: 'Hội Người cao tuổi', icon: 'users' },
+  { id: 'ctd', name: 'Hội Chữ thập đỏ', icon: 'heart' },
+  { id: 'kh', name: 'Hội Khuyến học', icon: 'file' },
+  { id: 'tnxp', name: 'Hội Cựu thanh niên xung phong', icon: 'shield' },
+  { id: 'dc', name: 'Hội Nạn nhân chất độc da cam/dioxin', icon: 'leaf' },
 ];
 const ORG_CATS = ['hoi-nong-dan', 'hoi-lhpn', 'doan-thanh-nien', 'hoi-ccb'];
 
 const NEWS = [
   { id: 'n1', cat: 'hoat-dong', date: '06/10/2026', time: '15:20', img: 'gathering', views: 1284, author: 'Ban Thường trực UBMTTQ xã', hot: true,
-    title: 'Triển khai Ngày hội Đại đoàn kết toàn dân tộc năm 2026 tại 42 khu dân cư',
-    sum: 'Ban Thường trực Ủy ban MTTQ xã hướng dẫn các Ban công tác Mặt trận tổ chức Ngày hội ở 42 xóm từ ngày 01 đến 18/11/2026, gắn với kỷ niệm 96 năm Ngày truyền thống Mặt trận Tổ quốc Việt Nam.',
+    title: 'Triển khai Ngày hội Đại đoàn kết toàn dân tộc năm 2026 tại 20 khu dân cư',
+    sum: 'Ban Thường trực Ủy ban MTTQ xã hướng dẫn các Ban công tác Mặt trận tổ chức Ngày hội ở 20 xóm từ ngày 01 đến 18/11/2026, gắn với kỷ niệm 96 năm Ngày truyền thống Mặt trận Tổ quốc Việt Nam.',
     body: [
-      'Chiều 06/10, Ban Thường trực Ủy ban MTTQ Việt Nam xã Bình Minh tổ chức hội nghị triển khai kế hoạch tổ chức Ngày hội Đại đoàn kết toàn dân tộc năm 2026 ở khu dân cư. Dự hội nghị có đại diện Thường trực Đảng ủy, lãnh đạo UBND xã, các tổ chức chính trị – xã hội và Trưởng ban công tác Mặt trận 42 xóm.',
+      'Chiều 06/10, Ban Thường trực Ủy ban MTTQ Việt Nam xã Bình Minh tổ chức hội nghị triển khai kế hoạch tổ chức Ngày hội Đại đoàn kết toàn dân tộc năm 2026 ở khu dân cư. Dự hội nghị có đại diện Thường trực Đảng ủy, lãnh đạo UBND xã, các tổ chức chính trị – xã hội và Trưởng ban công tác Mặt trận 20 xóm.',
       'Theo kế hoạch, Ngày hội được tổ chức đồng loạt từ ngày 01 đến 18/11/2026 với hai phần. Phần lễ ôn lại truyền thống 96 năm Mặt trận Tổ quốc Việt Nam (18/11/1930 – 18/11/2026), đánh giá kết quả cuộc vận động "Toàn dân đoàn kết xây dựng nông thôn mới, đô thị văn minh", biểu dương hộ gia đình, cá nhân tiêu biểu. Phần hội gồm các hoạt động văn hóa, văn nghệ, thể thao và trò chơi dân gian.',
       'Năm nay, Ủy ban MTTQ xã khuyến khích các xóm tổ chức "Phiên chợ quê" giới thiệu sản phẩm của hộ gia đình, tổ hợp tác, hợp tác xã trong xóm, đồng thời hướng dẫn bà con đăng ký gian hàng trên Chợ OCOP Bình Minh và theo dõi Zalo OA của xã.',
-      'Ban Thường trực đề nghị các Ban công tác Mặt trận gửi kế hoạch trước ngày 25/10/2026, cập nhật hình ảnh hoạt động lên Cổng thông tin để tổng hợp, đánh giá và lựa chọn khu dân cư tiêu biểu báo cáo cấp trên.',
+      'Ban Thường trực đề nghị các Ban công tác Mặt trận gửi kế hoạch trước ngày 25/10/2026, cập nhật hình ảnh hoạt động lên Trang thông tin để tổng hợp, đánh giá và lựa chọn khu dân cư tiêu biểu báo cáo cấp trên.',
     ] },
   { id: 'n2', cat: 'dai-doan-ket', date: '02/10/2026', time: '10:05', img: 'house', views: 976, author: 'Hoàng Lan',
     title: 'Bàn giao nhà Đại đoàn kết cho hộ cận nghèo tại xóm 7',
@@ -35,7 +46,7 @@ const NEWS = [
     body: [
       'Ngôi nhà có tổng kinh phí 95 triệu đồng, trong đó Quỹ "Vì người nghèo" xã hỗ trợ 60 triệu đồng, gia đình và họ tộc đối ứng 35 triệu đồng; Hội Cựu chiến binh và Đoàn Thanh niên xã đóng góp 120 ngày công.',
       'Đây là căn nhà thứ hai trong chỉ tiêu xây dựng 5 nhà Đại đoàn kết năm 2026 của xã. Ba căn còn lại sẽ khởi công trong tháng 10 và hoàn thành trước Ngày hội Đại đoàn kết toàn dân tộc 18/11.',
-      'Toàn bộ khoản thu, chi của chương trình được công khai tại mục Quỹ & An sinh trên Cổng thông tin điện tử, người dân có thể đối chiếu theo sao kê tài khoản của Quỹ.',
+      'Toàn bộ khoản thu, chi của chương trình được công khai tại mục Quỹ & An sinh trên Trang thông tin điện tử, người dân có thể đối chiếu theo sao kê tài khoản của Quỹ.',
     ] },
   { id: 'n3', cat: 'hoi-nong-dan', date: '29/09/2026', time: '16:40', img: 'workshop2', views: 842, author: 'Hội Nông dân xã',
     title: 'Tập huấn bán hàng trên mạng cho 120 hội viên sản xuất nông sản',
@@ -71,7 +82,7 @@ const NEWS = [
     title: 'Hội nghị đối thoại giữa người đứng đầu cấp ủy, chính quyền với Nhân dân',
     sum: '32 ý kiến được nêu tại hội nghị, tập trung vào đất đai, giao thông nội đồng, nước sạch và đầu ra cho nông sản.',
     body: [
-      'Hội nghị do Ban Thường trực Ủy ban MTTQ xã phối hợp tổ chức, có sự tham dự của đại diện cử tri 42 xóm. Các ý kiến đã được trả lời trực tiếp tại hội nghị hoặc giao bộ phận chuyên môn trả lời bằng văn bản trong 15 ngày.',
+      'Hội nghị do Ban Thường trực Ủy ban MTTQ xã phối hợp tổ chức, có sự tham dự của đại diện cử tri 20 xóm. Các ý kiến đã được trả lời trực tiếp tại hội nghị hoặc giao bộ phận chuyên môn trả lời bằng văn bản trong 15 ngày.',
       'Toàn bộ ý kiến và nội dung trả lời được cập nhật vào hệ thống Phản ánh – Kiến nghị; mỗi ý kiến có mã để người dân tra cứu tiến độ giải quyết.',
     ] },
   { id: 'n8', cat: 'dai-doan-ket', date: '10/09/2026', time: '11:20', img: 'award', views: 802, author: 'Hoàng Lan',
@@ -113,7 +124,7 @@ const NEWS = [
     body: ['Qua giám sát, đoàn đề nghị UBND xã rà soát 11 trường hợp chưa được cấp thẻ do thay đổi thông tin sau sắp xếp đơn vị hành chính, hoàn thành trước ngày 30/10/2026.'] },
   { id: 'n15', cat: 'giam-sat', date: '30/09/2026', time: '14:15', img: 'meeting2', views: 297, author: 'Ban Thường trực UBMTTQ xã',
     title: 'Lấy ý kiến Nhân dân vào dự thảo Quy ước nếp sống văn minh trong việc cưới, việc tang',
-    sum: 'Dự thảo được gửi tới 42 xóm và đăng trên Cổng thông tin; người dân góp ý trực tuyến đến hết ngày 25/10/2026.',
+    sum: 'Dự thảo được gửi tới 20 xóm và đăng trên Trang thông tin; người dân góp ý trực tuyến đến hết ngày 25/10/2026.',
     body: ['Ban Thường trực Ủy ban MTTQ xã sẽ tổng hợp ý kiến, phản biện và gửi UBND xã trước khi ban hành.'] },
   { id: 'n16', cat: 'dai-doan-ket', date: '05/09/2026', time: '08:00', img: 'kids', views: 621, author: 'Hoàng Lan',
     title: 'Trao 30 suất học bổng "Tiếp sức đến trường" năm học 2026 – 2027',
@@ -128,14 +139,14 @@ const NEWS = [
     sum: 'Hơn 300 hộ đã ghi nhật ký gieo cấy, bón phân, phun thuốc trên điện thoại, làm cơ sở in tem truy xuất nguồn gốc.',
     body: ['Hội Nông dân xã phối hợp HTX Bàu Canh hướng dẫn hội viên; dữ liệu được dùng để chứng minh quy trình sản xuất khi tham gia đánh giá OCOP.'] },
   { id: 'n19', cat: 'hoat-dong', date: '20/08/2026', time: '15:30', img: 'training', views: 566, author: 'Ban Thường trực UBMTTQ xã',
-    title: 'Ra mắt Tổ công nghệ số cộng đồng tại 42 xóm',
+    title: 'Ra mắt Tổ công nghệ số cộng đồng tại 20 xóm',
     sum: 'Mỗi tổ gồm Trưởng ban công tác Mặt trận, đại diện Đoàn Thanh niên và Hội Phụ nữ, làm đầu mối hướng dẫn người dân sử dụng các nền tảng số.',
     body: ['Các tổ được tập huấn về dịch vụ công trực tuyến, thanh toán không dùng tiền mặt, an toàn trên không gian mạng và hướng dẫn bà con mở gian hàng trên Chợ OCOP Bình Minh.'] },
   { id: 'n20', cat: 'hoat-dong', date: '01/10/2026', time: '16:00', img: 'meeting2', views: 702, author: 'Ban Thường trực UBMTTQ xã',
     title: 'Hội nghị Ủy ban MTTQ Việt Nam xã sơ kết công tác quý III, triển khai nhiệm vụ quý IV/2026',
     sum: 'Hội nghị đánh giá kết quả thực hiện Chương trình phối hợp và thống nhất hành động, thống nhất các nhiệm vụ trọng tâm đến cuối năm.',
     body: ['Trong quý III, Ủy ban MTTQ xã chủ trì 3 cuộc giám sát, 1 hội nghị phản biện xã hội; tiếp nhận 64 ý kiến, kiến nghị của cử tri và Nhân dân; vận động Quỹ "Vì người nghèo" được hơn 210 triệu đồng.',
-      'Nhiệm vụ quý IV tập trung tổ chức Ngày hội Đại đoàn kết toàn dân tộc ở 42 khu dân cư, hoàn thành 5 nhà Đại đoàn kết và đưa Cổng thông tin điện tử, Chợ OCOP Bình Minh vào vận hành.'] },
+      'Nhiệm vụ quý IV tập trung tổ chức Ngày hội Đại đoàn kết toàn dân tộc ở 20 khu dân cư, hoàn thành 5 nhà Đại đoàn kết và đưa Trang thông tin điện tử, Chợ OCOP Bình Minh vào vận hành.'] },
   { id: 'n21', cat: 'hoat-dong', date: '24/09/2026', time: '08:30', img: 'elders', views: 488, author: 'Ban Thường trực UBMTTQ xã',
     title: 'Hội nghị lấy ý kiến người có uy tín trong cộng đồng dân cư',
     sum: 'Đại biểu là trưởng họ, người cao tuổi, chức sắc tôn giáo, doanh nhân tiêu biểu góp ý vào hoạt động của chính quyền và Mặt trận sau sắp xếp.',
@@ -152,14 +163,58 @@ const NEWS = [
     title: 'Hội Cựu chiến binh trao tặng 500 lá cờ Tổ quốc, xây dựng "Tuyến đường cờ đỏ sao vàng"',
     sum: 'Nhân dịp Quốc khánh 2/9, Hội CCB xã phối hợp Đoàn Thanh niên hoàn thành 6 tuyến đường cờ tại các xóm vùng Mã Thành, Tiến Thành.',
     body: ['Công trình góp phần giáo dục truyền thống yêu nước, tạo cảnh quan sáng – xanh – sạch – đẹp ở khu dân cư.'] },
+  { id: 'n25', cat: 'hoi-xa-hoi', org: 'nct', date: '05/10/2026', time: '09:30', img: 'elders', views: 512, author: 'Hội Người cao tuổi xã',
+    title: 'Hội Người cao tuổi xã mừng thọ 312 cụ tròn 70, 75, 80 tuổi và trên 90 tuổi',
+    sum: 'Nhân Ngày Quốc tế Người cao tuổi 01/10, các chi hội tổ chức mừng thọ tại nhà văn hóa 20 xóm, gắn với phong trào "Tuổi cao – gương sáng".',
+    body: ['Hội Người cao tuổi xã phối hợp Ban công tác Mặt trận các xóm tặng thiếp, quà mừng thọ; biểu dương 26 người cao tuổi tiêu biểu trong phát triển kinh tế, khuyến học, giữ gìn an ninh trật tự ở khu dân cư.'] },
+  { id: 'n26', cat: 'hoi-xa-hoi', org: 'ctd', date: '30/09/2026', time: '15:10', img: 'flood', views: 433, author: 'Hội Chữ thập đỏ xã',
+    title: 'Hội Chữ thập đỏ xã chuẩn bị nhu yếu phẩm, sẵn sàng hỗ trợ Nhân dân mùa mưa lũ',
+    sum: '300 suất nhu yếu phẩm và tủ thuốc cơ bản được tập kết tại trụ sở xã; đội xung kích chữ thập đỏ 20 xóm được tập huấn sơ cấp cứu.',
+    body: ['Hội Chữ thập đỏ xã phối hợp Đoàn Thanh niên rà soát hộ già cả, neo đơn ở vùng trũng để chủ động di dời khi có mưa lớn; danh sách được cập nhật tới Ban công tác Mặt trận từng xóm.'] },
+  { id: 'n27', cat: 'hoi-xa-hoi', org: 'kh', date: '27/09/2026', time: '08:00', img: 'kids', views: 698, author: 'Hội Khuyến học xã',
+    title: 'Hội Khuyến học xã khen thưởng 215 học sinh giỏi, tân sinh viên năm học 2025 – 2026',
+    sum: 'Tổng giá trị khen thưởng 86 triệu đồng từ Quỹ khuyến học xã và các dòng họ; 18 "Gia đình học tập", 6 "Dòng họ học tập" được biểu dương.',
+    body: ['Hội Khuyến học xã kêu gọi con em quê hương tiếp tục đồng hành cùng Quỹ khuyến học, hướng tới mục tiêu không để học sinh nào phải bỏ học vì hoàn cảnh khó khăn.'] },
+  { id: 'n28', cat: 'hoi-xa-hoi', org: 'tnxp', date: '18/09/2026', time: '14:00', img: 'flag', views: 287, author: 'Hội Cựu TNXP xã',
+    title: 'Hội Cựu thanh niên xung phong xã gặp mặt truyền thống, thăm hỏi hội viên khó khăn',
+    sum: 'Hội viên ôn lại truyền thống lực lượng Thanh niên xung phong, trao 12 suất quà cho hội viên ốm đau, hoàn cảnh khó khăn.',
+    body: ['Hội cam kết tiếp tục tham gia làm đường giao thông nông thôn, vệ sinh môi trường và vận động con cháu chấp hành tốt chủ trương, chính sách ở địa phương.'] },
+  { id: 'n29', cat: 'hoi-xa-hoi', org: 'dc', date: '10/08/2026', time: '09:00', img: 'house', views: 341, author: 'Hội Nạn nhân CĐDC xã',
+    title: 'Thăm, tặng quà nạn nhân chất độc da cam/dioxin nhân ngày 10/8',
+    sum: '64 nạn nhân chất độc da cam/dioxin trên địa bàn xã được thăm hỏi, tặng quà; 2 hộ được đề xuất hỗ trợ sửa chữa nhà ở.',
+    body: ['Hội Nạn nhân chất độc da cam/dioxin xã phối hợp Ủy ban MTTQ xã vận động nguồn lực xã hội hóa, hướng dẫn các gia đình làm hồ sơ hưởng chế độ theo quy định.'] },
+  { id: 'n30', cat: 'tuyen-giao', date: '04/10/2026', time: '08:00', img: 'meeting2', views: 456, author: 'Ban Thường trực UBMTTQ xã',
+    title: 'Phổ biến nghị quyết, chỉ thị mới tới Ban công tác Mặt trận 20 xóm',
+    sum: 'Hội nghị trực tuyến kết nối điểm cầu xã với nhà văn hóa các xóm; tài liệu được gửi qua Zalo OA để bà con tiện theo dõi.',
+    body: ['Ban Thường trực Ủy ban MTTQ xã đề nghị Trưởng ban công tác Mặt trận các xóm lồng ghép nội dung tuyên truyền trong sinh hoạt khu dân cư, nắm bắt và phản ánh kịp thời tâm tư, nguyện vọng của Nhân dân.'] },
+  { id: 'n31', cat: 'tuyen-giao', date: '23/09/2026', time: '16:30', img: 'road_build', views: 519, author: 'Ban Thường trực UBMTTQ xã',
+    title: '"Dân vận khéo" trong vận động Nhân dân hiến đất mở rộng đường giao thông nông thôn',
+    sum: 'Nhờ cách làm "đi từng ngõ, gõ từng nhà", 46 hộ ở 3 xóm tự nguyện hiến hơn 2.100 m² đất để mở rộng tuyến đường liên xóm.',
+    body: ['Mô hình được Ủy ban MTTQ xã đề xuất biểu dương trong phong trào thi đua "Dân vận khéo"; kinh nghiệm được chia sẻ tới Ban công tác Mặt trận các xóm còn lại.'] },
+  { id: 'n32', cat: 'tuyen-giao', date: '12/09/2026', time: '08:30', img: 'meeting1', views: 302, author: 'Ban Thường trực UBMTTQ xã',
+    title: 'Hội nghị nắm tình hình tư tưởng Nhân dân, định hướng dư luận xã hội quý III/2026',
+    sum: 'Các ý kiến tập trung vào giá vật tư nông nghiệp, đầu ra nông sản và việc giải quyết thủ tục hành chính sau sắp xếp đơn vị hành chính.',
+    body: ['Kết quả tổng hợp được báo cáo Đảng ủy xã và chuyển các ý kiến, kiến nghị tới cơ quan có thẩm quyền để giải quyết, trả lời.'] },
+  { id: 'n33', cat: 'ton-giao', date: '02/10/2026', time: '10:00', img: 'dinh', views: 276, author: 'Ban Thường trực UBMTTQ xã',
+    title: 'Ủy ban MTTQ xã thăm, chúc mừng chức sắc, chức việc các tôn giáo trên địa bàn',
+    sum: 'Đoàn công tác ghi nhận đóng góp của đồng bào các tôn giáo trong phong trào xây dựng nông thôn mới, chăm lo người nghèo.',
+    body: ['Ủy ban MTTQ xã mong muốn các chức sắc, chức việc tiếp tục vận động tín đồ "sống tốt đời, đẹp đạo", tham gia tích cực các cuộc vận động, phong trào thi đua ở khu dân cư.'] },
+  { id: 'n34', cat: 'ton-giao', date: '16/09/2026', time: '14:00', img: 'meeting2', views: 248, author: 'Ban Thường trực UBMTTQ xã',
+    title: 'Hội nghị phổ biến Luật Tín ngưỡng, tôn giáo cho chức sắc, chức việc và người có uy tín',
+    sum: 'Nội dung tập trung vào quyền tự do tín ngưỡng, tôn giáo; trình tự đăng ký sinh hoạt tôn giáo tập trung và tổ chức lễ hội.',
+    body: ['Đại biểu được giải đáp các vướng mắc liên quan đến đất đai cơ sở tôn giáo và thủ tục hành chính sau sắp xếp đơn vị hành chính.'] },
+  { id: 'n35', cat: 'ton-giao', date: '28/08/2026', time: '07:30', img: 'village_gate', views: 315, author: 'Ban Thường trực UBMTTQ xã',
+    title: 'Đồng bào có đạo chung tay xây dựng khu dân cư "Sáng – xanh – sạch – đẹp"',
+    sum: 'Các xóm có đông đồng bào theo đạo ra quân trồng 1.500 cây xanh, lắp 80 bóng đèn chiếu sáng trên các tuyến đường.',
+    body: ['Phong trào được duy trì vào sáng Chủ nhật hằng tuần, góp phần tăng cường khối đại đoàn kết giữa đồng bào có đạo và không có đạo trên địa bàn.'] },
 ];
 
 const DEEDS = [
-  { name: 'Ông Hồ Văn Thân', where: 'Xóm 21', img: 'elders', title: 'Hiến 320 m² đất mở rộng đường liên xóm',
+  { name: 'Ông Hồ Văn Thân', where: 'Xóm 1', img: 'elders', title: 'Hiến 320 m² đất mở rộng đường liên xóm',
     text: 'Gia đình ông tự nguyện tháo dỡ tường rào, hiến đất để tuyến đường đủ rộng cho xe chở nông sản ra vào.' },
   { name: 'Chị Hồ Thị Mai Anh', where: 'Xóm 5', img: 'brittle', link: '#/cho/gian-hang/maianh', title: 'Khởi nghiệp kẹo lạc mật mía, tạo việc làm cho 8 lao động nữ',
     text: 'Từ mô hình của Hội LHPN, chị đưa sản phẩm lên Chợ OCOP Bình Minh và đang hoàn thiện hồ sơ đánh giá OCOP.' },
-  { name: 'Em Trần Minh Đức', where: 'Xóm 33', img: 'workshop2', title: 'Đoàn viên tiêu biểu phong trào "Bình dân học vụ số"',
+  { name: 'Em Trần Minh Đức', where: 'Xóm 13', img: 'workshop2', title: 'Đoàn viên tiêu biểu phong trào "Bình dân học vụ số"',
     text: 'Trong 3 tháng hè, Đức đã hướng dẫn hơn 90 người cao tuổi sử dụng dịch vụ công trực tuyến và thanh toán qua điện thoại.' },
 ];
 
@@ -177,9 +232,9 @@ const DOCS = [
 const SCHEDULE = [
   ['Thứ Hai, 05/10', '07:30', 'Giao ban Ban Thường trực Ủy ban MTTQ xã', 'Trụ sở UBMTTQ xã'],
   ['Thứ Tư, 07/10', '14:00', 'Giám sát chính sách BHYT hộ cận nghèo tại xóm 19, 20', 'Nhà văn hóa xóm 19'],
-  ['Thứ Năm, 08/10', '08:00', 'Hội nghị triển khai Ngày hội Đại đoàn kết (cụm Tiến Thành)', 'Nhà văn hóa xóm 33'],
-  ['Thứ Sáu, 09/10', '08:00', 'Làm việc về phương án Cổng thông tin MTTQ và Chợ OCOP xã', 'Hội trường UBND xã'],
-  ['Thứ Bảy, 10/10', '07:00', 'Ra quân vệ sinh môi trường "Ngày thứ Bảy xanh"', '42 khu dân cư'],
+  ['Thứ Năm, 08/10', '08:00', 'Hội nghị triển khai Ngày hội Đại đoàn kết (cụm Tiến Thành)', 'Nhà văn hóa xóm 13'],
+  ['Thứ Sáu, 09/10', '08:00', 'Làm việc về phương án Trang thông tin MTTQ và Chợ OCOP xã', 'Hội trường UBND xã'],
+  ['Thứ Bảy, 10/10', '07:00', 'Ra quân vệ sinh môi trường "Ngày thứ Bảy xanh"', '20 khu dân cư'],
 ];
 
 const LINKS = [
@@ -203,19 +258,19 @@ const SELLERS = [
     story: 'Liên kết 126 hộ xã viên trên 85 ha lúa thơm quanh bàu Canh, canh tác theo quy trình giảm phân bón hóa học, ghi nhật ký đồng ruộng trên điện thoại.' },
   { id: 'ocduc', name: 'Tổ hợp tác nuôi ốc bươu đen Đức Thành', short: 'THT ốc Đức Thành', owner: 'Tổ trưởng: anh Trần Đình Lực', xom: 'Xóm 12', vung: 'Đức Thành', color: '#4a3b2c', joined: '05/2026', img: 'field2',
     story: '11 hộ nuôi ốc bươu đen trong ao ruộng sạch, cho ăn rau, bèo, cám gạo; ốc được nhả bùn 24 giờ trước khi xuất bán.' },
-  { id: 'haiyen', name: 'Trang trại gà đồi Hải Yến', short: 'Trang trại Hải Yến', owner: 'Chủ trang trại: chị Lê Thị Yến', xom: 'Xóm 31', vung: 'Tiến Thành', color: '#b5541c', joined: '04/2026', img: 'chickens2',
+  { id: 'haiyen', name: 'Trang trại gà đồi Hải Yến', short: 'Trang trại Hải Yến', owner: 'Chủ trang trại: chị Lê Thị Yến', xom: 'Xóm 11', vung: 'Tiến Thành', color: '#b5541c', joined: '04/2026', img: 'chickens2',
     story: 'Gà ri lai thả trên 3 ha đồi, nuôi 5–6 tháng mới xuất chuồng, ăn ngô, thóc và rau xanh trồng tại trại.' },
   { id: 'ongmt', name: 'Tổ hợp tác ong mật Mã Thành', short: 'Ong mật Mã Thành', owner: 'Tổ trưởng: ông Phan Văn Tình', xom: 'Xóm 18', vung: 'Mã Thành', color: '#c98a00', joined: '06/2026', img: 'beehives',
     story: '420 đàn ong nội đặt dưới tán rừng vùng bán sơn địa; chỉ quay mật khi đủ độ già, không pha đường.' },
-  { id: 'chett', name: 'Tổ hợp tác chè Tiến Thành', short: 'Chè Tiến Thành', owner: 'Tổ trưởng: bà Nguyễn Thị Lan', xom: 'Xóm 35', vung: 'Tiến Thành', color: '#3f7d3a', joined: '07/2026', img: 'tea_field',
+  { id: 'chett', name: 'Tổ hợp tác chè Tiến Thành', short: 'Chè Tiến Thành', owner: 'Tổ trưởng: bà Nguyễn Thị Lan', xom: 'Xóm 15', vung: 'Tiến Thành', color: '#3f7d3a', joined: '07/2026', img: 'tea_field',
     story: 'Chè trồng trên đất đồi, hái một tôm hai lá vào buổi sáng, sao tay bằng chảo gang theo cách làm truyền thống.' },
-  { id: 'camloi', name: 'Vườn cam nhà bác Lợi', short: 'Vườn cam bác Lợi', owner: 'Chủ vườn: ông Thái Văn Lợi', xom: 'Xóm 27', vung: 'Tân Thành', color: '#e07b10', joined: '09/2026', img: 'orange_tree',
+  { id: 'camloi', name: 'Vườn cam nhà bác Lợi', short: 'Vườn cam bác Lợi', owner: 'Chủ vườn: ông Thái Văn Lợi', xom: 'Xóm 7', vung: 'Tân Thành', color: '#e07b10', joined: '09/2026', img: 'orange_tree',
     story: '2,5 ha cam trên đất đồi, bón phân chuồng ủ hoai; cam chỉ hái khi có đơn để giữ độ tươi.' },
-  { id: 'tuonghien', name: 'Cơ sở tương nếp Bà Hiền', short: 'Tương Bà Hiền', owner: 'Chủ cơ sở: bà Võ Thị Hiền', xom: 'Xóm 22', vung: 'Tân Thành', color: '#7a4b22', joined: '04/2026', img: 'jars',
+  { id: 'tuonghien', name: 'Cơ sở tương nếp Bà Hiền', short: 'Tương Bà Hiền', owner: 'Chủ cơ sở: bà Võ Thị Hiền', xom: 'Xóm 2', vung: 'Tân Thành', color: '#7a4b22', joined: '04/2026', img: 'jars',
     story: 'Ba đời làm tương: nếp cái, đậu tương rang, muối biển và nước giếng khơi, ủ trong chum sành từ 3 đến 6 tháng.' },
   { id: 'thuytien', name: 'Cơ sở giò chả Thủy Tiên', short: 'Giò chả Thủy Tiên', owner: 'Chủ cơ sở: chị Đặng Thị Thủy', xom: 'Xóm 3', vung: 'Mã Thành', color: '#a33b3b', joined: '05/2026', img: 'gio2',
     story: 'Giò làm theo cách truyền thống, thịt mua của các hộ chăn nuôi trong xã, gói lá chuối, luộc trong ngày.' },
-  { id: 'duoclieu', name: 'HTX Dược liệu Bình Minh', short: 'HTX Dược liệu', owner: 'Giám đốc: ông Hoàng Hữu Phúc', xom: 'Xóm 40', vung: 'Tiến Thành', color: '#556b2f', joined: '04/2026', img: 'chevang_leaf',
+  { id: 'duoclieu', name: 'HTX Dược liệu Bình Minh', short: 'HTX Dược liệu', owner: 'Giám đốc: ông Hoàng Hữu Phúc', xom: 'Xóm 20', vung: 'Tiến Thành', color: '#556b2f', joined: '04/2026', img: 'chevang_leaf',
     story: 'Thu mua lá chè vằng của bà con vùng đồi, nấu cao bằng nồi hơi inox, gửi mẫu kiểm nghiệm định kỳ.' },
   { id: 'maianh', name: 'Cơ sở bánh kẹo Mai Anh', short: 'Bánh kẹo Mai Anh', owner: 'Chủ cơ sở: chị Hồ Thị Mai Anh', xom: 'Xóm 5', vung: 'Mã Thành', color: '#b07a2a', joined: '06/2026', img: 'brittle',
     story: 'Kẹo lạc nấu bằng mật mía, dùng lạc của bà con trong xã; khởi nghiệp từ mô hình "Phụ nữ khởi nghiệp" của Hội LHPN xã.' },
@@ -282,17 +337,17 @@ const REPORT_FIELDS = ['Hạ tầng – giao thông', 'Môi trường', 'Nông n
 const STATUS = ['Đã tiếp nhận', 'Đã chuyển xử lý', 'Đang xử lý', 'Đã giải quyết'];
 
 const REPORTS = [
-  { code: 'PA-2026-0158', title: 'Tiếng ồn karaoke sau 22 giờ tại xóm 27', field: 'An ninh – trật tự', xom: 'Xóm 27', date: '07/10/2026', status: 0, by: 'Ẩn danh',
+  { code: 'PA-2026-0158', title: 'Tiếng ồn karaoke sau 22 giờ tại xóm 7', field: 'An ninh – trật tự', xom: 'Xóm 7', date: '07/10/2026', status: 0, by: 'Ẩn danh',
     steps: [['07/10', 'Tiếp nhận qua Zalo OA']], answer: '' },
   { code: 'PA-2026-0156', title: 'Rác thải tồn đọng tại điểm tập kết gần chợ', field: 'Môi trường', xom: 'Xóm 9', date: '03/10/2026', status: 1, by: 'Bà L.T.H',
-    steps: [['03/10', 'Tiếp nhận qua Cổng thông tin'], ['04/10', 'Chuyển UBND xã (bộ phận Kinh tế) và tổ vệ sinh môi trường']], answer: '' },
+    steps: [['03/10', 'Tiếp nhận qua Trang thông tin'], ['04/10', 'Chuyển UBND xã (bộ phận Kinh tế) và tổ vệ sinh môi trường']], answer: '' },
   { code: 'PA-2026-0154', title: 'Đề nghị nạo vét kênh tưới tiêu cánh đồng xóm 5', field: 'Nông nghiệp – thủy lợi', xom: 'Xóm 5', date: '24/09/2026', status: 2, by: 'Ông P.V.S',
     steps: [['24/09', 'Tiếp nhận qua Ban CTMT xóm 5'], ['25/09', 'Chuyển UBND xã'], ['30/09', 'UBND xã khảo sát hiện trường, lập phương án nạo vét']], answer: '' },
   { code: 'PA-2026-0151', title: 'Đèn đường trục chính xóm 12 hỏng nhiều ngày', field: 'Hạ tầng – giao thông', xom: 'Xóm 12', date: '21/09/2026', status: 3, by: 'Ông N.V.H',
     steps: [['21/09', 'Tiếp nhận qua Zalo OA'], ['22/09', 'Chuyển UBND xã (bộ phận Kinh tế)'], ['25/09', 'Thay 4 bóng đèn LED, Ban CTMT xóm xác nhận']],
     answer: 'UBND xã đã thay thế 4 bóng đèn hỏng ngày 25/09/2026. Ban công tác Mặt trận xóm 12 đã kiểm tra, xác nhận kết quả với người phản ánh.' },
-  { code: 'PA-2026-0149', title: 'Hỏi thủ tục cấp đổi giấy chứng nhận quyền sử dụng đất sau sắp xếp địa giới', field: 'Thủ tục hành chính', xom: 'Xóm 30', date: '18/09/2026', status: 3, by: 'Bà T.T.L',
-    steps: [['18/09', 'Tiếp nhận qua Cổng thông tin'], ['19/09', 'Chuyển bộ phận Một cửa UBND xã'], ['20/09', 'Đã trả lời']],
+  { code: 'PA-2026-0149', title: 'Hỏi thủ tục cấp đổi giấy chứng nhận quyền sử dụng đất sau sắp xếp địa giới', field: 'Thủ tục hành chính', xom: 'Xóm 10', date: '18/09/2026', status: 3, by: 'Bà T.T.L',
+    steps: [['18/09', 'Tiếp nhận qua Trang thông tin'], ['19/09', 'Chuyển bộ phận Một cửa UBND xã'], ['20/09', 'Đã trả lời']],
     answer: 'Giấy chứng nhận đã cấp vẫn có giá trị pháp lý; người dân không bắt buộc cấp đổi chỉ vì thay đổi tên đơn vị hành chính. Khi có nhu cầu cấp đổi, bà liên hệ bộ phận Một cửa của UBND xã để được hướng dẫn.' },
   { code: 'PA-2026-0146', title: 'Đề nghị hỗ trợ hộ bà neo đơn sửa mái nhà dột', field: 'An sinh xã hội', xom: 'Xóm 19', date: '10/09/2026', status: 3, by: 'Ban CTMT xóm 19',
     steps: [['10/09', 'Tiếp nhận'], ['12/09', 'Khảo sát thực tế'], ['20/09', 'Hoàn thành sửa chữa']],
@@ -316,7 +371,7 @@ const FUND = {
     ['04/10/2026', 'Ông N.V.H (xóm 12)', 500000, 'Ủng hộ Quỹ'],
     ['03/10/2026', 'Chi hội Phụ nữ xóm 14', 2400000, 'Từ mô hình thu gom phế liệu'],
     ['02/10/2026', 'HTX Nông nghiệp Bàu Canh', 10000000, 'Xây nhà Đại đoàn kết'],
-    ['01/10/2026', 'Bà T.T.L (xóm 30)', 200000, 'Ủng hộ Quỹ'],
+    ['01/10/2026', 'Bà T.T.L (xóm 10)', 200000, 'Ủng hộ Quỹ'],
     ['29/09/2026', 'Cơ sở giò chả Thủy Tiên', 2000000, 'Tiếp sức đến trường'],
     ['27/09/2026', 'Đoàn viên thanh niên xã', 3150000, 'Gây quỹ từ "Phiên chợ quê"'],
   ],
@@ -334,7 +389,7 @@ const POLLS = [
   { id: 'p2', title: 'Bà con mong Chợ OCOP Bình Minh hỗ trợ điều gì nhất?', note: 'Hội Nông dân xã lấy ý kiến hội viên', end: '31/10/2026',
     opts: [['Tìm đầu ra, bao tiêu sản phẩm', 356], ['Tập huấn bán hàng trên mạng, livestream', 198], ['Thiết kế bao bì, tem QR truy xuất', 164], ['Hỗ trợ hồ sơ đánh giá OCOP', 147]] },
 ];
-const SIDE_POLL = { id: 'p0', title: 'Ông/bà biết đến Cổng thông tin qua kênh nào?', opts: [['Zalo OA của xã', 214], ['Ban công tác Mặt trận xóm', 167], ['Facebook, mạng xã hội', 96], ['Kênh khác', 31]] };
+const SIDE_POLL = { id: 'p0', title: 'Ông/bà biết đến Trang thông tin qua kênh nào?', opts: [['Zalo OA của xã', 214], ['Ban công tác Mặt trận xóm', 167], ['Facebook, mạng xã hội', 96], ['Kênh khác', 31]] };
 
 const DRAFT = {
   title: 'Dự thảo Quy ước nếp sống văn minh trong việc cưới, việc tang tại các xóm',
@@ -346,19 +401,19 @@ const DRAFT = {
   ],
 };
 
-/* Ban công tác Mặt trận 42 xóm — tên người là giả lập */
+/* Ban công tác Mặt trận 20 xóm — tên người là giả lập */
 const XOM = (() => {
   const ho = ['Nguyễn', 'Trần', 'Hồ', 'Phan', 'Lê', 'Hoàng', 'Đặng', 'Võ', 'Thái', 'Phạm', 'Đinh', 'Cao'];
   const nam = ['Văn Hùng', 'Đình Thắng', 'Hữu Sơn', 'Văn Tuấn', 'Xuân Bình', 'Văn Cường', 'Đình Hải', 'Quang Long', 'Văn Nam', 'Bá Phúc', 'Sỹ Quý', 'Văn Thanh', 'Hữu Vinh', 'Đình Lâm'];
   const nu = ['Thị Hoa', 'Thị Lan', 'Thị Hương', 'Thị Tâm', 'Thị Châu', 'Thị Mai', 'Thị Hằng'];
-  return Array.from({ length: 42 }, (_, i) => {
+  return Array.from({ length: 20 }, (_, i) => {
     const female = i % 4 === 2;
     const name = `${ho[(i * 5 + 3) % ho.length]} ${female ? nu[(i * 3) % nu.length] : nam[(i * 7 + 1) % nam.length]}`;
     return {
       n: i + 1,
       leader: (female ? 'Bà ' : 'Ông ') + name,
       phone: `09${(i * 7 + 3) % 10}${(i * 3 + 1) % 10} xxx ${String(100 + ((i * 137) % 900)).padStart(3, '0')}`,
-      households: 160 + ((i * 53) % 150),
+      households: 390 + ((i * 53) % 150),
     };
   });
 })();
@@ -380,7 +435,7 @@ const ORDERS = [
 const PENDING = [
   { id: 'q1', name: 'Nhút mít muối xổi', who: 'Hộ bà Lê Thị Sen · Xóm 16', when: '07/10/2026', note: 'Cần bổ sung ảnh bao bì' },
   { id: 'q2', name: 'Cá trắm đầm Bàu Canh', who: 'Tổ hợp tác thủy sản · Xóm 11', when: '06/10/2026', note: 'Đủ thông tin' },
-  { id: 'q3', name: 'Bánh đa vừng nướng than', who: 'Hộ anh Nguyễn Văn Kiên · Xóm 24', when: '05/10/2026', note: 'Cần giấy xác nhận kiến thức ATTP' },
+  { id: 'q3', name: 'Bánh đa vừng nướng than', who: 'Hộ anh Nguyễn Văn Kiên · Xóm 4', when: '05/10/2026', note: 'Cần giấy xác nhận kiến thức ATTP' },
 ];
 
 const QA = [
@@ -391,7 +446,7 @@ const QA = [
   { k: ['ocop', 'bán hàng', 'gian hàng', 'sản phẩm', 'lên chợ', 'lên sàn', 'ban hang'], q: 'Đưa sản phẩm nhà tôi lên Chợ OCOP?', link: '#/cho/dang-ky',
     a: 'Bà con đăng ký với chi hội Nông dân, chi hội Phụ nữ hoặc Ban công tác Mặt trận xóm. Tổ công nghệ số cộng đồng sẽ đến chụp ảnh, ghi thông tin và mở gian hàng <b>miễn phí</b>. Sản phẩm đủ điều kiện được hỗ trợ hồ sơ đăng ký đánh giá OCOP.' },
   { k: ['xóm', 'ban công tác', 'trưởng ban', 'xom'], q: 'Ban công tác Mặt trận xóm tôi là ai?', link: '#/mttq/xom',
-    a: 'Danh bạ Ban công tác Mặt trận 42 xóm có ở mục <b>Ban CTMT 42 xóm</b>, kèm số điện thoại và nhóm Zalo của từng xóm.' },
+    a: 'Danh bạ Ban công tác Mặt trận 20 xóm có ở mục <b>Ban CTMT 20 xóm</b>, kèm số điện thoại và nhóm Zalo của từng xóm.' },
   { k: ['đất', 'sổ đỏ', 'giấy tờ', 'sáp nhập', 'sắp xếp', 'cấp đổi'], q: 'Sau sáp nhập có phải đổi giấy tờ không?',
     a: 'Giấy tờ đã cấp vẫn có giá trị sử dụng; người dân không bắt buộc làm thủ tục cấp đổi chỉ vì thay đổi tên đơn vị hành chính. Khi có nhu cầu, bà con liên hệ bộ phận Một cửa của UBND xã.' },
 ];
