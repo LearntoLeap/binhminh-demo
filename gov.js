@@ -20,7 +20,7 @@ const GOV_MENU = [
   ['gioi-thieu', 'Giới thiệu', [['gioi-thieu', 'Tổng quan xã Bình Minh'], ['co-cau', 'Cơ cấu tổ chức'], ['xom', 'Ban công tác Mặt trận 20 xóm']]],
   ['chuyen-muc/hoat-dong', 'Tin tức – Sự kiện', [['chuyen-muc/hoat-dong', 'Hoạt động Mặt trận'], ['chuyen-muc/hoi-nong-dan', 'Hội Nông dân'], ['chuyen-muc/hoi-lhpn', 'Hội Liên hiệp Phụ nữ'], ['chuyen-muc/doan-thanh-nien', 'Đoàn Thanh niên'], ['chuyen-muc/hoi-ccb', 'Hội Cựu chiến binh'], ['chuyen-muc/hoi-xa-hoi', 'Các hội xã hội'], ['tin-cap-tren', 'Tin Mặt trận Trung ương và tỉnh']]],
   ['chuyen-muc/giam-sat', 'Giám sát – Phản biện'],
-  ['chuyen-muc/tuyen-giao', 'Dân vận', [['chuyen-muc/tuyen-giao', 'Dân vận – Tuyên giáo'], ['chuyen-muc/ton-giao', 'Dân vận – Tôn giáo']]],
+  ['chuyen-muc/tuyen-giao', 'Dân vận', [['chuyen-muc/tuyen-giao', 'Dân vận – Tuyên giáo'], ['chuyen-muc/ton-giao', 'Dân tộc – Tôn giáo']]],
   ['chuyen-muc/dai-doan-ket', 'An sinh xã hội', [['chuyen-muc/dai-doan-ket', 'Đại đoàn kết – An sinh xã hội'], ['quy', 'Quỹ "Vì người nghèo" – công khai thu, chi']]],
   ['van-ban', 'Văn bản', [['van-ban', 'Văn bản của Ủy ban MTTQ xã'], ['lich-cong-tac', 'Lịch công tác']]],
   ['phan-anh', 'Phản ánh – Kiến nghị'],

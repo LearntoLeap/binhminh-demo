@@ -18,7 +18,7 @@ const NEWS_CATS = [
   { id: 'dai-doan-ket', name: 'Đại đoàn kết – An sinh xã hội' },
   { id: 'hoi-xa-hoi', name: 'Các hội xã hội' },
   { id: 'tuyen-giao', name: 'Dân vận – Tuyên giáo' },
-  { id: 'ton-giao', name: 'Dân vận – Tôn giáo' },
+  { id: 'ton-giao', name: 'Dân tộc – Tôn giáo' },
 ];
 /* Các hội quần chúng, hội xã hội hoạt động trong khối Mặt trận ở cơ sở */
 const SOC_ORGS = [
