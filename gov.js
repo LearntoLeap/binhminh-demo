@@ -379,13 +379,13 @@ function renderChat(show) {
   const root = $('#chat-root');
   if (!show) { root.innerHTML = ''; return; }
   if (!S.chatOpen) { root.innerHTML = `<button class="chat-fab" data-act="chat-open">${ic('chat')} Hỏi đáp</button>`; return; }
-  root.innerHTML = `<div class="chat" role="dialog" aria-label="Trợ lý hỏi đáp">
+  root.innerHTML = fixLinks(`<div class="chat" role="dialog" aria-label="Trợ lý hỏi đáp">
     <header>${ic('spark')}<div><b>Trợ lý hỏi đáp</b><span>Ủy ban MTTQ xã Bình Minh</span></div><button data-act="chat-close" aria-label="Đóng">${ic('x')}</button></header>
     <div class="msgs" id="msgs">${S.chat.map(m => `<div class="bub ${m.who}">${m.text}</div>`).join('')}</div>
     <div class="chips">${QA.slice(0, 4).map((q, i) => `<button class="chip" data-act="chat-q" data-i="${i}">${q.q}</button>`).join('')}</div>
     <form data-form="chat"><input class="input" name="q" placeholder="Nhập câu hỏi…" autocomplete="off" aria-label="Câu hỏi"><button class="btn red sm" aria-label="Gửi">${ic('send', 'sm')}</button></form>
     <div class="ai-note">Bản demo trả lời theo kịch bản; bản thật dùng AI học từ văn bản của xã</div>
-  </div>`;
+  </div>`);
   const m = $('#msgs'); m.scrollTop = m.scrollHeight;
 }
 function chatAsk(text) {

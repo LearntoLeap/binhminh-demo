@@ -15,6 +15,22 @@ const store = {
 const IN_FRAME = (() => { try { return window.self !== window.top; } catch (e) { return true; } })();
 if (IN_FRAME) document.documentElement.classList.add('framed');
 
+/* Hai trang web riêng: /mttq/ (Trang thông tin MTTQ) và /ocop/ (Chợ OCOP); trang gốc là tổng quan đề xuất, quản trị.
+   Mã vẫn dùng đường dẫn nội bộ "#/mttq/…", "#/cho/…"; link() đổi sang địa chỉ thật của từng trang. */
+const SITE = window.BM_SITE || '';
+const ROOT = SITE ? '../' : '';
+const SITE_DIR = { mttq: 'mttq/', cho: 'ocop/' };
+function link(p) {
+  const m = p.split('/')[0], rest = p.slice(m.length + 1);
+  if (SITE && m === SITE) return '#/' + rest;
+  if (SITE_DIR[m]) return ROOT + SITE_DIR[m] + '#/' + rest;
+  return ROOT + '#/' + p;
+}
+const fixLinks = html => html
+  .replace(/href="#\/([^"]*)"/g, (_, p) => `href="${link(p)}"`)
+  .replace(/src="(?!https?:|data:|\.\.\/|\/|#)([^"]+)"/g, (_, p) => `src="${ROOT}${p}"`);
+const go = p => { const u = link(p); if (u.startsWith('#')) location.hash = u; else location.href = u; };
+
 const I = {
   msg: '<path d="M4 5h16v11H9l-5 4z"/><path d="M8 10h8"/>',
   search: '<circle cx="11" cy="11" r="7"/><path d="m20 20-4-4"/>',
@@ -97,14 +113,18 @@ function toast(msg) {
   t.textContent = msg; t.classList.add('on');
   clearTimeout(toastT); toastT = setTimeout(() => t.classList.remove('on'), 2600);
 }
-function modal(html) { $('#modal-root').innerHTML = `<div class="modal-bg" data-act="close-modal"><div class="modal" role="dialog" aria-modal="true">${html}</div></div>`; }
+function modal(html) { $('#modal-root').innerHTML = fixLinks(`<div class="modal-bg" data-act="close-modal"><div class="modal" role="dialog" aria-modal="true">${html}</div></div>`); }
 function closeModal() { $('#modal-root').innerHTML = ''; }
 
 /* =================== Điều hướng =================== */
-function parse() { return location.hash.replace(/^#\/?/, '').split('/').filter(Boolean).map(decodeURIComponent); }
+function parse() {
+  const s = location.hash.replace(/^#\/?/, '').split('/').filter(Boolean).map(decodeURIComponent);
+  return SITE ? [SITE, ...s] : s;
+}
 
 function render(keepScroll) {
   const seg = parse(), mod = seg[0] || '';
+  if (!SITE && SITE_DIR[mod]) { location.replace(link(seg.join('/'))); return; }
   let html, title;
   if (mod === 'mttq') { html = govPage(seg.slice(1)); title = 'Trang thông tin Ủy ban MTTQ Việt Nam xã Bình Minh'; }
   else if (mod === 'cho') { html = mkPage(seg.slice(1)); title = 'Chợ OCOP Bình Minh'; }
@@ -112,7 +132,7 @@ function render(keepScroll) {
   else if (mod === 'dien-thoai') { html = phonePage(); title = 'Trên điện thoại'; }
   else { html = overviewPage(); title = 'Bình Minh Kết Nối – Đề xuất'; }
   const y = window.scrollY;
-  $('#app').innerHTML = (IN_FRAME ? '' : demoBar(mod)) + html;
+  $('#app').innerHTML = fixLinks((IN_FRAME ? '' : demoBar(mod)) + html);
   document.title = title + ' · bản demo';
   renderChat(mod === 'mttq');
   startSlider();
@@ -622,7 +642,7 @@ function typeInto(el, text, done) {
 function phonePage() {
   const ph = (title, cap, sub, hash) => `<figure class="phone-wrap"><div class="phone"><div class="scr">
       <div class="zbar"><b>${title}</b><span class="zb-cap"><i>•••</i><i>✕</i></span></div>
-      <iframe src="index.html${hash}" title="${title}" loading="lazy"></iframe></div></div>
+      <iframe src="${link(hash.slice(2))}" title="${title}" loading="lazy"></iframe></div></div>
       <figcaption>${cap}<span>${sub}</span></figcaption></figure>`;
   return `<div class="ph-page"><div class="wrap">
     <div class="ph-head"><span class="eyebrow">Kênh chính: Zalo</span><h1>Bà con dùng ngay trên điện thoại</h1>
@@ -787,7 +807,7 @@ document.addEventListener('click', e => {
       const it = S.cart.find(c => c.id === el.dataset.id);
       if (it) it.qty += q; else S.cart.push({ id: el.dataset.id, qty: q });
       saveCart();
-      if (a === 'buy') location.hash = '#/cho/gio-hang';
+      if (a === 'buy') go('cho/gio-hang');
       else { render(true); toast(`Đã thêm ${q} × ${P(el.dataset.id).name} vào giỏ`); }
       break;
     }
@@ -856,7 +876,7 @@ document.addEventListener('submit', e => {
   e.preventDefault();
   const d = Object.fromEntries(new FormData(f));
   switch (f.dataset.form) {
-    case 'gov-search': if (d.q && d.q.trim()) location.hash = '#/mttq/tim-kiem/' + encodeURIComponent(d.q.trim()); else toast('Nhập từ khóa để tìm'); break;
+    case 'gov-search': if (d.q && d.q.trim()) go('mttq/tim-kiem/' + encodeURIComponent(d.q.trim())); else toast('Nhập từ khóa để tìm'); break;
     case 'side-poll': S.votes.p0 = Number(d.o); store.set('bm.votes', S.votes); render(true); toast('Cảm ơn ông/bà đã tham gia biểu quyết'); break;
     case 'contact': f.reset(); toast('Đã gửi thư liên hệ tới Ủy ban MTTQ xã'); break;
     case 'doc-filter': toast('Demo: lọc văn bản theo điều kiện đã chọn'); break;
@@ -880,7 +900,7 @@ document.addEventListener('submit', e => {
     }
     case 'comment': f.reset(); toast('Cảm ơn ông/bà đã góp ý. Ý kiến đã được ghi nhận.'); break;
     case 'chat': if (d.q && d.q.trim()) chatAsk(d.q.trim()); break;
-    case 'mk-search': S.filt = { ...DEF_FILT, q: (d.q || '').trim() }; if (location.hash === '#/cho/san-pham') render(); else location.hash = '#/cho/san-pham'; break;
+    case 'mk-search': S.filt = { ...DEF_FILT, q: (d.q || '').trim() }; if (location.hash === link('cho/san-pham')) render(); else go('cho/san-pham'); break;
     case 'checkout': {
       const items = S.cart.map(c => ({ ...c, p: P(c.id) }));
       const shops = [...new Set(items.map(c => c.p.seller))].map(id => ({ id, total: items.filter(c => c.p.seller === id).reduce((a, c) => a + c.p.price * c.qty, 0) + (d.ship === 'post' ? 25000 : 0) }));
@@ -890,7 +910,7 @@ document.addEventListener('submit', e => {
       S.myOrders.unshift({ code, time: nowHM(), buyer: d.name || 'Khách', items: items.map(c => `${c.p.name} ×${c.qty}`).join(', '), total: shops.reduce((a, s) => a + s.total, 0), pay: d.pay === 'qr' ? 'VietQR' : 'COD', st: 'Chờ người bán xác nhận' });
       store.set('bm.orders', S.myOrders); store.set('bm.lastOrder', S.lastOrder);
       S.cart = []; saveCart();
-      location.hash = '#/cho/dat-hang';
+      go('cho/dat-hang');
       break;
     }
     case 'register': S.uploaded = false; S.pending.unshift({ id: 'u' + Date.now(), name: d.prod || 'Sản phẩm mới', who: 'Vừa đăng ký trên Chợ', when: today(), note: 'Chờ xác minh' }); store.set('bm.pending', S.pending);
