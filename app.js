@@ -15,16 +15,15 @@ const store = {
 const IN_FRAME = (() => { try { return window.self !== window.top; } catch (e) { return true; } })();
 if (IN_FRAME) document.documentElement.classList.add('framed');
 
-/* Hai trang web riêng: /mttq/ (Trang thông tin MTTQ) và /ocop/ (Chợ OCOP); trang gốc là tổng quan đề xuất, quản trị.
-   Mã vẫn dùng đường dẫn nội bộ "#/mttq/…", "#/cho/…"; link() đổi sang địa chỉ thật của từng trang. */
-const SITE = window.BM_SITE || '';
-const ROOT = SITE ? '../' : '';
-const SITE_DIR = { mttq: 'mttq/', cho: 'ocop/' };
+/* Ba trang web: "/" Trang thông tin MTTQ, "/ocop/" Chợ OCOP, "/admin/" trang tổng (tổng quan đề xuất, quản trị, điện thoại).
+   Mã vẫn dùng đường dẫn nội bộ "#/mttq/…", "#/cho/…", "#/quan-tri"…; link() đổi sang địa chỉ thật của từng trang. */
+const SITE = window.BM_SITE || 'mttq';
+const SITE_DIR = { mttq: '', cho: 'ocop/', hub: 'admin/' };
+const ROOT = SITE_DIR[SITE] ? '../' : '';
+const siteOf = m => (m === 'mttq' || m === 'cho') ? m : 'hub';
 function link(p) {
-  const m = p.split('/')[0], rest = p.slice(m.length + 1);
-  if (SITE && m === SITE) return '#/' + rest;
-  if (SITE_DIR[m]) return ROOT + SITE_DIR[m] + '#/' + rest;
-  return ROOT + '#/' + p;
+  const m = p.split('/')[0], t = siteOf(m), rest = t === 'hub' ? p : p.slice(m.length + 1);
+  return (t === SITE ? '' : ROOT + SITE_DIR[t]) + '#/' + rest;
 }
 const fixLinks = html => html
   .replace(/href="#\/([^"]*)"/g, (_, p) => `href="${link(p)}"`)
@@ -117,14 +116,15 @@ function modal(html) { $('#modal-root').innerHTML = fixLinks(`<div class="modal-
 function closeModal() { $('#modal-root').innerHTML = ''; }
 
 /* =================== Điều hướng =================== */
-function parse() {
-  const s = location.hash.replace(/^#\/?/, '').split('/').filter(Boolean).map(decodeURIComponent);
-  return SITE ? [SITE, ...s] : s;
-}
+function hashSeg() { return location.hash.replace(/^#\/?/, '').split('/').filter(Boolean).map(decodeURIComponent); }
+function parse() { const s = hashSeg(); return SITE === 'hub' ? s : [SITE, ...s]; }
+const LEGACY = ['mttq', 'cho', 'quan-tri', 'dien-thoai'];
 
 function render(keepScroll) {
+  // link cũ dạng "#/mttq/…", "#/cho/…", "#/quan-tri": chuyển về đúng trang
+  const raw = hashSeg();
+  if (SITE === 'hub' ? siteOf(raw[0]) !== 'hub' : LEGACY.includes(raw[0])) { location.replace(link(raw.join('/'))); return; }
   const seg = parse(), mod = seg[0] || '';
-  if (!SITE && SITE_DIR[mod]) { location.replace(link(seg.join('/'))); return; }
   let html, title;
   if (mod === 'mttq') { html = govPage(seg.slice(1)); title = 'Trang thông tin Ủy ban MTTQ Việt Nam xã Bình Minh'; }
   else if (mod === 'cho') { html = mkPage(seg.slice(1)); title = 'Chợ OCOP Bình Minh'; }
