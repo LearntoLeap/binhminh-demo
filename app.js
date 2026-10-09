@@ -20,6 +20,9 @@ if (IN_FRAME) document.documentElement.classList.add('framed');
 const SITE = window.BM_SITE || 'mttq';
 const SITE_DIR = { mttq: '', cho: 'ocop/', hub: 'admin/' };
 const ROOT = SITE_DIR[SITE] ? '../' : '';
+// Thanh BẢN DEMO chỉ hiện ở trang tổng /admin/
+const SHOW_BAR = !IN_FRAME && SITE === 'hub';
+if (!SHOW_BAR) document.documentElement.classList.add('nobar');
 const siteOf = m => (m === 'mttq' || m === 'cho') ? m : 'hub';
 function link(p) {
   const m = p.split('/')[0], t = siteOf(m), rest = t === 'hub' ? p : p.slice(m.length + 1);
@@ -132,7 +135,7 @@ function render(keepScroll) {
   else if (mod === 'dien-thoai') { html = phonePage(); title = 'Trên điện thoại'; }
   else { html = overviewPage(); title = 'Bình Minh Kết Nối – Đề xuất'; }
   const y = window.scrollY;
-  $('#app').innerHTML = fixLinks((IN_FRAME ? '' : demoBar(mod)) + html);
+  $('#app').innerHTML = fixLinks((SHOW_BAR ? demoBar(mod) : '') + html);
   document.title = title + ' · bản demo';
   renderChat(mod === 'mttq');
   startSlider();

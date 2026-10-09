@@ -11,7 +11,7 @@
 }
 * { box-sizing: border-box; }
 html { color-scheme: light; -webkit-text-size-adjust: 100%; }
-html.framed { --bar: 0px; }
+html.framed, html.nobar { --bar: 0px; }
 body { margin: 0; font-family: var(--font); font-size: 16px; line-height: 1.55; color: var(--ink); background: var(--paper); }
 svg { display: block; }
 a { color: inherit; }
